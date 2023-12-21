@@ -1,6 +1,6 @@
 class Node:
     '''
-
+   for computation graph
 
     '''
     def __init__(self,ten):
