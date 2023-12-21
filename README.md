@@ -3,5 +3,5 @@ A deep learning framework from scratch in python and numpy.(Jax as experimental)
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-![](https://github.com/saurabhaloneai/whalegrad/blob/main/whale.png)
+![](https://github.com/saurabhaloneai/cats-vs-dogs/blob/main/whalegrad.mp4)
 
