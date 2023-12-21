@@ -1,6 +1,5 @@
 # whalegrad
-A deep learning framework from scratch in python and numpy.(Jax as experimental)
-
+WhaleGrad a deep learning framework based on Python and NumPy with experimental Jax integration.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ![](https://github.com/saurabhaloneai/whalegrad/blob/main/whalegrad.png)
