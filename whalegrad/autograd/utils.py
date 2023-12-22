@@ -132,38 +132,39 @@ def gred_check(model,inputs,targets,loss_fn,epsilon=1e-7,print_vals=True) :
     return _evaluate_grad_check(analytical_grads,calculated_grads,epsilon,print_vals)
 
 
-# def fn_grad_checks(fn, inputs,params,targets=None,loss_fn=None,epsilon=1e-7,print_vals=True,**kwargs):
+
+def fn_grad_checks(fn, inputs,params,targets=None,loss_fn=None,epsilon=1e-7,print_vals=True,**kwargs):
     
-#     '''
-#     '''
+    '''
+    '''
     
-#     if loss_fn is None:
-#         from ..nn.loss import MSE 
-#         loss_fn = MSE()
+    if loss_fn is None:
+        from ..nn.loss import MSE 
+        loss_fn = MSE()
 
-#     analytical_grads =[]
-#     calculated_grads = []
+    analytical_grads =[]
+    calculated_grads = []
 
-#     for param in params:
-#         param.zero_grad()
+    for param in params:
+        param.zero_grad()
 
-#     def get_loss(targets=targets ):
-#         outputs = fn(*inputs,**kwargs)
-#         if targets is None:
-#             from .tensor import tesnor as tesnor
-#             targets = tesnor(np.ones(outputs.shape))
-#         loss = loss_fn(outputs,targets)
+    def get_loss(targets=targets ):
+        outputs = fn(*inputs,**kwargs)
+        if targets is None:
+            from .tensor import tesnor as tesnor
+            targets = tesnor(np.ones(outputs.shape))
+        loss = loss_fn(outputs,targets)
 
-#         return loss
+        return loss
     
-#     with new_graph():
-#             loss = get_loss()
-#             loss.baclward()
-#             _wiggle_params(analytical_grads,calculated_grads,epsilon,print_vals)
+    with new_graph():
+            loss = get_loss()
+            loss.baclward()
+            _wiggle_params(analytical_grads,calculated_grads,epsilon,print_vals)
 
-#     analytical_grads = np.array(analytical_grads)
-#     calculated_grads = np.array(calculated_grads)
-#     return _evaluate_grad_check(analytical_grads,calculated_grads,epsilon,print_vals)
+    analytical_grads = np.array(analytical_grads)
+    calculated_grads = np.array(calculated_grads)
+    return _evaluate_grad_check(analytical_grads,calculated_grads,epsilon,print_vals)
 
 
 
