@@ -1,5 +1,5 @@
 import numpy as np
-from graph import Graph
+from base import Graph
 from itertools import zip_longest
 
 

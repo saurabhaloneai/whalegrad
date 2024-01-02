@@ -1,6 +1,6 @@
-from .utils import process_data, unbroadcast_data
-from .ops import add, sub, mul, div, pow as _pow, transpose, sum as _sum, exp, dot, flatten, reshape
-
+from utils import process_data, unbroadcast_data
+from functions import add, sub, mul, div, pow as _pow, transpose, sum as _sum, exp, dot, flatten, reshape
+from base import Graph
 
 class Tensor:
   '''NumPy array wrapper with autograd support.
