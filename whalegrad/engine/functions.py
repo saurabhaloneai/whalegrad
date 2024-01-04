@@ -419,7 +419,7 @@ class Pow(Operation):
     Args:
       tens1 (Tensor or int or float or list or np.ndarray): First operand
       tens2 (Tensor or int or float or list or np.ndarray): Second operand
-    
+        
     Returns:
       Tensor of the result
     '''
