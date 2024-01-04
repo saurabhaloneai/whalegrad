@@ -89,6 +89,7 @@ and a visitation status flag.
     def are_parents_visited(self):
         """
         Checks if all parents are visited.
+        (check the calculate gradients )
 
         Returns:
         - True if all parents are visited, else False.
