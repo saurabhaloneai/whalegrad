@@ -51,7 +51,7 @@ and a visitation status flag.
             pass
         else:
             pass
-        Topologically sorts Tensors from the current Node, marks Nodes as visited, and initiates Tensor backward pass. 
+        Topologically sorts Tensors from the current Node, marks Nodes as visited,,and initiates Tensor backward pass. 
         Includes retain_graph parameter for graph retention decision.
         """
         from .utils import get_graph
