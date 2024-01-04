@@ -46,7 +46,7 @@ and a visitation status flag.
 
     def backward(self, retain_graph):
         """
-        Initiates backward pass from the current Node, excluding children. 
+        Initiates backward pass from the current Node, excluding children.This helps in calculating the grdients  
         Pops the corresponding Tensor from sorted_tensors for _backward call with calculate_grads=False. 
         Topologically sorts Tensors from the current Node, marks Nodes as visited, and initiates Tensor backward pass. 
         Includes retain_graph parameter for graph retention decision.
