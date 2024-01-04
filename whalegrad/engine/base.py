@@ -21,7 +21,7 @@ and a visitation status flag.
 
     def topological_sort(self):
         """
-        Performs topological sort of all Nodes starting from the current Node.
+        Performs topological sort of all Nodes starting from the current Node. badically for recording gradient of all nodes.
 
         Sorts the graph topologically to perform the backward pass efficiently,
         ensuring that all the children are calculated before the current node's gradient.
