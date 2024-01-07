@@ -26,6 +26,8 @@ class Operation:
         operands[i] = Tensor(operand)
     return tuple(operands)
   
+#   for i,operand in enumerate(operands):
+#  operands = list(operands) 
   def get_tensors(self, *operands):
     '''Returns the processed operands as tuple of Tensors
 
