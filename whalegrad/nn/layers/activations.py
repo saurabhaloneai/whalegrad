@@ -5,3 +5,8 @@ class Relu:
 class LeakyReLu:
     pass
 
+class tanh:
+    pass
+
+class step:
+    pass
