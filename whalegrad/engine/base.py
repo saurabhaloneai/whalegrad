@@ -108,9 +108,9 @@ class Node:
           
 
           
-    # def create_node(self, node):
+    def create_node(self, node):
        
-    #    self.nodes_dict[node.vals] = node
+       self.nodes_dict[node.vals] = node
 
 
     # def get_node(self, vals):
