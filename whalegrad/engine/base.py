@@ -2,6 +2,7 @@
 from utils import current_graph 
 
 #base code 
+#1. Node
 
 class Node:
     
@@ -60,4 +61,31 @@ class Node:
      
      return all(child.visited for child in self.children)
  
-  def 
+  def check_parents_visited(self):
+     
+     return all(parent.visited for parent in self.parents)
+     
+  def add_child(self, other):
+     
+     if other not in self.children:
+        self.children.append(other)
+
+  def add_parent(self, other):
+
+     if other not in self.parents:
+        self.parents.aappend(other)     
+ 
+  def __repr__(self):
+     return f'Node({self.vals})'
+  
+  def __str__(self):
+     return f'Node(\n{self.vals}\nbackward_function: {self.backward_function}\nvisited: {self.visited}\n)'
+  
+
+
+#2. Graph
+  
+
+
+ class Graph:
+    
