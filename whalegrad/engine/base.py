@@ -117,9 +117,9 @@ class Node:
        
        return self.nodes_dict.get(vals)
     
-    # def create_value(self, vals):
+    def create_value(self, vals):
        
-    #    self.nodes_dict[vals] = Node(vals)
+       self.nodes_dict[vals] = Node(vals)
 
     # def remove_value(self, vals):
        
