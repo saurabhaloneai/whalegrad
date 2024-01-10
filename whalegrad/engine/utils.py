@@ -111,25 +111,25 @@ def calculate_numerical_gradients(analytical_grads, calculated_grads, params, ge
                 
             param.zero_grad()  # to prevent any side effects
 
-# def grade_check(model, inputs, targets, loss_fn, epsilon=1e-7,print_vals=True):
+def grade_check(model, inputs, targets, loss_fn, epsilon=1e-7,print_vals=True):
     
-#     params = model.parameters()
-#     analytical_grads = []
-#     calculated_grads = []
+    params = model.parameters()
+    analytical_grads = []
+    calculated_grads = []
 
-#     def get_loss():
-#         outputs = model(inputs)
-#         loss = loss_fn(outputs, targets)
-#         return loss
+    def get_loss():
+        outputs = model(inputs)
+        loss = loss_fn(outputs, targets)
+        return loss
 
-#     with new_graph():
-#         loss = get_loss()
-#         loss.backward()
-#         calculate_numerical_gradients(analytical_grads, calculated_grads, params, get_loss, epsilon)
+    with new_graph():
+        loss = get_loss()
+        loss.backward()
+        calculate_numerical_gradients(analytical_grads, calculated_grads, params, get_loss, epsilon)
 
-#     analytical_grads = np.array(analytical_grads)
-#     calculated_grads = np.array(calculated_grads)
-#     return compare_gradients(analytical_grads, calculated_grads, epsilon, print_vals)
+    analytical_grads = np.array(analytical_grads)
+    calculated_grads = np.array(calculated_grads)
+    return compare_gradients(analytical_grads, calculated_grads, epsilon, print_vals)
 
 
 def function_gradients_checker(fn, inputs=None, params=None, targets=None, loss_fn=None, epsilon=1e-7, print_vals=True, **kwargs):
