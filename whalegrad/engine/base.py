@@ -125,7 +125,7 @@ class Node:
        
        self.nodes_dict.pop(vals)
 
-    # def default_vis(self):
-    #    for node in self.nodes_dict.values():
-    #       node.visited = False
+    def default_vis(self):
+       for node in self.nodes_dict.values():
+          node.visited = False
        
