@@ -1,5 +1,5 @@
 import numpy as np
-from base import Node
+from node import Node
 
 
 class Operation:
@@ -19,7 +19,7 @@ class Operation:
     Returns:
       tuple of Tensors
     '''
-    from .tensor import Tensor
+    from .value import Tensor
     operands = list(operands)
     for i,operand in enumerate(operands):
       if not isinstance(operand, Tensor):
@@ -98,7 +98,7 @@ class Operation:
     Returns:
       Tensor of the result
     '''
-    from .tensor import Tensor
+    from .value import Tensor
     from .utils import get_graph
     graph = get_graph()
     result = result.astype(np.ndarray)

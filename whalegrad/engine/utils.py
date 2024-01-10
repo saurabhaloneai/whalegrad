@@ -1,30 +1,14 @@
 
-
-from .base import Graph
-from . import GRAPH_GB
-
-# def current_graph():
-#     """
-#     Get the global graph instance.
-
-#     Returns:
-#     - Graph
-#         Global graph instance.
-#     """
-#     return Graph.graph or GRAPH_GB
+from graph import Graph
 
 
 def current_graph():
-  '''Returns graph that is in use and present in Graph.graph
+    '''Returns the graph that is in use
 
-  If Graph.graph is None, then the global graph _NG_GRAPH is used
+    If Graph.graph is None, the global graph GRAPH_GB is used
 
-  Returns:
-    Graph object that is currently used
-  '''
-  if Graph.graph is None:
+    Returns:
+      Graph object that is currently used
+    '''
     from .. import GRAPH_GB
-    graph = GRAPH_GB
-  else:
-    graph = Graph.graph
-  return graph
+    return Graph.graph if Graph.graph is not None else GRAPH_GB
