@@ -1,3 +1,8 @@
+#import
+from utils import current_graph 
+
+#base code 
+
 class Node:
     
  
@@ -28,3 +33,25 @@ class Node:
 
   return sorted_value
   
+  def backward(self,preserve_graph):
+     
+     #imported the current graph from graph
+     graph = current_graph()
+     graph.default_vis()
+     self.mark_visit_all_children() # by usig this you can calculate gradient of any intermediate Node
+     sorted_value = self.topological_sort()
+     graph.default_vis()
+
+     sorted_value.pop(0) # remove the value accordin to the current node
+     self.visited = True
+     self.vals._backward(self, preserve_graph, calculate_grads=False)
+
+     for vals in sorted_value:
+        node = graph.current_node(vals)
+        node.visited = True
+        vals._backward(node, preserve_graph)
+
+
+
+
+

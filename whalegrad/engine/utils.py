@@ -65,7 +65,7 @@ def unbroadcast_data(data, origin_data_shape, broadcasted_shape):
     return unbroadcasted_data
 
 
-def get_graph():
+def current_graph():
     """
     Get the global graph instance.
 
@@ -73,12 +73,7 @@ def get_graph():
     - Graph
         Global graph instance.
     """
-    if Graph.graph is None:
-        from .. import _WH_GRAPH
-        graph = _WH_GRAPH
-    else:
-        graph = _WH_GRAPH
-    return graph
+    return Graph.graph or GRAPH_GB
 
 
 class new_graph():
