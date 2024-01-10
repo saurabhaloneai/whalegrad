@@ -19,7 +19,7 @@ class Node:
   
   sorted_value = []
     
-  if not self.are_children_visited():
+  if not self.check_children_visited():
       for child in self.children:
           if not child.visited:
               sorted_vals += child.topological_sort()
@@ -51,7 +51,13 @@ class Node:
         node.visited = True
         vals._backward(node, preserve_graph)
 
+  def mark_visited_all_children(self):
+     
+     for child in self.children:
+        child.visited = True
 
-
-
-
+  def check_children_visited(self):
+     
+     return all(child.visited for child in self.children)
+ 
+  def 
