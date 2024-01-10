@@ -1,5 +1,5 @@
 #import
-from utils import current_graph
+# from .utils import current_graph
 
 #base code 
 #1. Node
@@ -37,6 +37,7 @@ class Node:
   def backward(self,preserve_graph):
      
      #imported the current graph from graph
+     from .utils import current_graph
      graph = current_graph()
      graph.default_vis()
      self.mark_visit_all_children() # by usig this you can calculate gradient of any intermediate Node
@@ -81,75 +82,3 @@ class Node:
   def __str__(self):
      return f'Node(\n{self.vals}\nbackward_function: {self.backward_function}\nvisited: {self.visited}\n)'
   
-
-
-
-'''<------------------------------------------------------------------------------------------------>'''
-'''<------------------------------------------------------------------------------------------------>'''
-
-#2. Graph
-  
-
-
-class Graph:
-    
-    graph = None # if not provided grpah it will call the global graph
-
-    def __init__(self):
-       
-       self.nodes_dict = {}
-       self.trace = True
-
-    def create_edge(self, final_node, input_nodes):
-       
-       self.create_node(final_node)
-       for i in input_nodes: #i stands for input_node
-           if self.get_node(i) is None:
-              self.create_value(i)   
-           input_node = self.get_node(i)
-           final_node.create_parent(input_node)
-           input_node.create_child(final_node)
-          
-
-          
-    def create_node(self, node):
-       
-       self.nodes_dict[node.vals] = node
-
-
-    def get_node(self, vals):
-       
-       return self.nodes_dict.get(vals)
-    
-    def create_value(self, vals):
-       
-       self.nodes_dict[vals] = Node(vals)
-
-    def remove_value(self, vals):
-       
-       self.nodes_dict.pop(vals)
-
-    def default_vis(self):
-       for node in self.nodes_dict.values():
-          node.visited = False
-       
-
-    def default_graph(self):
-       
-       self.nodes_dict = {}
-    
-    def zero_grad(self):
-       
-       for value in self.nodes_dict.Keys():
-          value.zero_grad()
-    
-    def __repr__(self):
-       return 'Graph()'
-    
-    def __str__(self):
-       return f'Graph({self.nodes_dict})'
-    
-#####
-
-global GRAPH_GB
-GRAPH_GB = Graph()
