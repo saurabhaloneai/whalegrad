@@ -121,9 +121,9 @@ class Node:
        
        self.nodes_dict[vals] = Node(vals)
 
-    # def remove_value(self, vals):
+    def remove_value(self, vals):
        
-    #    self.nodes_dict.pop(vals)
+       self.nodes_dict.pop(vals)
 
     # def default_vis(self):
     #    for node in self.nodes_dict.values():
