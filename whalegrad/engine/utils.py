@@ -20,17 +20,17 @@ def preprocess_numeric_data(data):
     return data
 
 
-# def unbroadcast_data(data, orig_data_shape, broadcasted_shape):
+def unbroadcast_data(data, orig_data_shape, broadcasted_shape):
     
 
-#     def get_axes_to_be_summed(orig_data_shape, broadcasted_shape):
+    def get_axes_to_be_summed(orig_data_shape, broadcasted_shape):
     
-#         return tuple(dim for dim, (dim_broadcasted, dim_orig) in enumerate(zip_longest(reversed(broadcasted_shape), reversed(orig_data_shape), fillvalue=None)) if dim_broadcasted != dim_orig)
+        return tuple(dim for dim, (dim_broadcasted, dim_orig) in enumerate(zip_longest(reversed(broadcasted_shape), reversed(orig_data_shape), fillvalue=None)) if dim_broadcasted != dim_orig)
 
-#     axes_to_be_summed = get_axes_to_be_summed(orig_data_shape, broadcasted_shape)
-#     unbroadcasted_data = np.sum(data, axis=axes_to_be_summed) if broadcasted_shape is not None else data
+    axes_to_be_summed = get_axes_to_be_summed(orig_data_shape, broadcasted_shape)
+    unbroadcasted_data = np.sum(data, axis=axes_to_be_summed) if broadcasted_shape is not None else data
 
-#     return unbroadcasted_data
+    return unbroadcasted_data
 
 
 # def current_graph():
