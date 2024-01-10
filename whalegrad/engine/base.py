@@ -1,5 +1,5 @@
 #import
-from utils import current_graph 
+from utils import current_graph
 
 #base code 
 #1. Node
@@ -83,11 +83,15 @@ class Node:
   
 
 
+
+'''<------------------------------------------------------------------------------------------------>'''
+'''<------------------------------------------------------------------------------------------------>'''
+
 #2. Graph
   
 
 
- class Graph:
+class Graph:
     
     graph = None # if not provided grpah it will call the global graph
 
@@ -129,3 +133,23 @@ class Node:
        for node in self.nodes_dict.values():
           node.visited = False
        
+
+    def default_graph(self):
+       
+       self.nodes_dict = {}
+    
+    def zero_grad(self):
+       
+       for value in self.nodes_dict.Keys():
+          value.zero_grad()
+    
+    def __repr__(self):
+       return 'Graph()'
+    
+    def __str__(self):
+       return f'Graph({self.nodes_dict})'
+    
+#####
+
+global GRAPH_GB
+GRAPH_GB = Graph()
