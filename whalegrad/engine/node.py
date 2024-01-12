@@ -1,84 +1,85 @@
-#import
-# from .utils import current_graph
-
-#base code 
-#1. Node
-
 class Node:
+ 
+
+  def __init__(self, tens):
+   
+    self.tens = tens
+    self.children = []
+    self.parents = []
+    self.parent_broadcast_shape = None
+    self.backward_fn = None
+    self.visited = False
+  
+  def topological_sort(self):
+     
+    sorted_tensors = []
     
- 
- def __init__(self, vals):
+    if not self.are_children_visited():
+        for child in self.children:
+            if not child.visited:
+                sorted_tensors += child.topological_sort()
+
+    self.visited = True
+    sorted_tensors.append(self.tens)
+
+    for parent in self.parents:
+        if not parent.visited:
+            sorted_tensors += parent.topological_sort()
+
+    return sorted_tensors
+         
+        
   
-  self.vals = vals 
-  self.childrens= []
-  self.parents = []
-  self.bordacast_parent_shape = None
-  self.backward_function = None
-  self.visited = False
- 
- def topological_sort(self):
-  
-  sorted_value = []
+  def backward(self, preserve_graph):
     
-  if not self.check_children_visited():
-      for child in self.children:
-          if not child.visited:
-              sorted_vals += child.topological_sort()
+    from toolbox import current_graph
+    graph = current_graph()
+    graph.reset_visited()
+    self.visit_all_children() # this allows for gradient calculation from any intermediate node in the graph
+    sorted_tensors = self.topological_sort()
+    graph.reset_visited()
 
-  self.visited = True
-  sorted_value.append(self.vals)
+    sorted_tensors.pop(0) # Remove the Tensor corresponding to the current node
+    self.visited = True
+    self.tens._backward(self, preserve_graph, calculate_grads=False)
 
-  for parent in self.parents:
-      if not parent.visited:
-          sorted_value += parent.topological_sort()
+    for tens in sorted_tensors:
+      node = graph.get_node(tens)
+      node.visited = True
+      tens._backward(node, preserve_graph)
 
-  return sorted_value
+  def visit_all_children(self):
+    
+    for child in self.children:
+      child.visited = True
+
+  def are_children_visited(self):
+    
+    for child in self.children:
+      if not(child.visited):
+        return False
+    return True
   
-  def backward(self,preserve_graph):
-     
-     #imported the current graph from graph
-     from .utils import current_graph
-     graph = current_graph()
-     graph.default_vis()
-     self.mark_visit_all_children() # by usig this you can calculate gradient of any intermediate Node
-     sorted_value = self.topological_sort()
-     graph.default_vis()
-
-     sorted_value.pop(0) # remove the value accordin to the current node
-     self.visited = True
-     self.vals._backward(self, preserve_graph, calculate_grads=False)
-
-     for vals in sorted_value:
-        node = graph.current_node(vals)
-        node.visited = True
-        vals._backward(node, preserve_graph)
-
-  def mark_visited_all_children(self):
-     
-     for child in self.children:
-        child.visited = True
-
-  def check_children_visited(self):
-     
-     return all(child.visited for child in self.children)
- 
-  def check_parents_visited(self):
-     
-     return all(parent.visited for parent in self.parents)
-     
-  def create_child(self, other):
-     
-     if other not in self.children:
-        self.children.append(other)
-
-  def create_parent(self, other):
-
-     if other not in self.parents:
-        self.parents.aappend(other)     
- 
+  def are_parents_visited(self):
+   
+    for parent in self.parents:
+      if not(parent.visited):
+        return False
+    return True
+  
+  def append_child(self, other):
+    
+    self.children.append(other)
+  
+  def append_parent(self, other):
+   
+    self.parents.append(other)
+  
   def __repr__(self):
-     return f'Node({self.vals})'
+    return f'Node({self.tens})'
   
   def __str__(self):
-     return f'Node(\n{self.vals}\nbackward_function: {self.backward_function}\nvisited: {self.visited}\n)'
+    return f'Node( \n{self.tens}\nbackward_fn: {self.backward_fn}\nvisited: {self.visited}\n )'
+  
+
   

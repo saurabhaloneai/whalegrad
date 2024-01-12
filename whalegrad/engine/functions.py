@@ -3,18 +3,17 @@ from node import Node
 
 
 class Operation:
- 
+  
+  
   def process_operands(self, operands):
     
-    from .value import Tensor
+    from tensor import Tensor
     operands = list(operands)
     for i,operand in enumerate(operands):
       if not isinstance(operand, Tensor):
         operands[i] = Tensor(operand)
     return tuple(operands)
   
-#   for i,operand in enumerate(operands):
-#  operands = list(operands) 
   def get_tensors(self, *operands):
     
     tensors = self.process_operands(operands)
@@ -26,7 +25,7 @@ class Operation:
       return tensors
   
   def get_broadcast_shape(self, *tensors):
-   
+    
     for tens in tensors:
       if not(tens.requires_broadcasting):
         return None
@@ -36,7 +35,7 @@ class Operation:
       return None
   
   def result_requires_grad(self, tensors):
-  
+    
     for tens in tensors:
       if tens.requires_grad:
         return True
@@ -44,46 +43,46 @@ class Operation:
   
   def get_result_tensor(self, result, *tensors):
     
-    from .value import Tensor
-    from .utils import get_graph
-    graph = get_graph()
+    from tensor import Tensor
+    from toolbox import current_graph
+    graph = current_graph()
     result = result.astype(np.ndarray)
     result_tensor = Tensor(result, self.result_requires_grad(tensors))
     if graph.track:
       result_node = Node(result_tensor)
       result_node.backward_fn = self.backward
       result_node.parent_broadcast_shape = self.get_broadcast_shape(*tensors)
-      graph.add_edge(result_node, tensors)
+      graph.create_edge(result_node, tensors)
     return result_tensor
   
   def backward(self, *args):
-  
+    
     raise NotImplementedError(f"Backward method not implemented for Operation {self}")
-
-# <------------ADD------------>
-class Add(Operation):
-  '''Element wise addition between two Tensors or Tensor-like
-  '''
-  def forward(self, tens1, tens2):
   
-    tens1, tens2 = self.get_tensors(tens1, tens2)
-    return self.get_result_tensor(tens1.data+tens2.data, tens1, tens2)
 
+class Add(Operation):
+    
+  
+  def forward(self, tens1, tens2):
+      
+      tens1, tens2 = self.get_tensors(tens1, tens2)
+      return self.get_result_tensor(tens1.data+tens2.data, tens1, tens2)
+  
   def backward(self, tens1, tens2):
-   
-    tens1.set_grad_fn(lambda ug:ug)
-    tens2.set_grad_fn(lambda ug:ug)
-
+     
+      tens1.set_grad_fn(lambda ug:ug)
+      tens2.set_grad_fn(lambda ug:ug)
+  
 def add(tens1, tens2):
- 
-  return Add().forward(tens1, tens2)
-
-
+    
+    return Add().forward(tens1, tens2)
+  
+  
 # <------------SUB------------>
 class Sub(Operation):
   
   def forward(self, tens1, tens2):
-   
+    
     tens1, tens2 = self.get_tensors(tens1, tens2)
     return self.get_result_tensor(tens1.data-tens2.data, tens1, tens2)
   
@@ -99,14 +98,14 @@ def sub(tens1, tens2):
 
 # <------------MUL------------>
 class Mul(Operation):
- 
+  
   def forward(self, tens1, tens2):
-   
+    
     tens1, tens2 = self.get_tensors(tens1, tens2)
     return self.get_result_tensor(tens1.data*tens2.data, tens1, tens2)
   
   def backward(self, tens1, tens2):
-   
+    
     tens1.set_grad_fn(lambda ug:tens2.data*ug)
     tens2.set_grad_fn(lambda ug:tens1.data*ug)
 
@@ -117,7 +116,7 @@ def mul(tens1, tens2):
 
 # <------------DIV------------>
 class Div(Operation):
- 
+  
   def forward(self, tens1, tens2):
     
     tens1, tens2 = self.get_tensors(tens1, tens2)
@@ -160,7 +159,7 @@ class Exp(Operation):
     return self.get_result_tensor(np.exp(tens.data), tens)
   
   def backward(self, tens):
-   
+    
     tens.set_grad_fn(lambda ug:np.exp(tens.data)*ug)
 
 def exp(tens):
@@ -177,7 +176,7 @@ class Log(Operation):
     return self.get_result_tensor(np.log(tens.data), tens)
   
   def backward(self, tens):
-   
+    
     tens.set_grad_fn(lambda ug:(1/tens.data)*ug)
 
 def log(tens):
@@ -200,7 +199,7 @@ class Pow(Operation):
     tens2.set_grad_fn(lambda ug:(result*np.log(tens1.data))*ug)
 
 def pow(tens1, tens2):
- 
+  
   return Pow().forward(tens1, tens2)
 
 
@@ -208,7 +207,7 @@ def pow(tens1, tens2):
 class Sum(Operation):
   
   def __init__(self, axis=None):
-   
+    
     self.axis = axis
   
   def forward(self, tens):
@@ -226,13 +225,13 @@ class Sum(Operation):
     tens.set_grad_fn(sum_backward)
 
 def sum(tens, axis=None):
- 
+  
   return Sum(axis).forward(tens)
 
 
 # <------------TRANSPOSE------------>
 class Transpose(Operation):
- 
+  
   def forward(self, tens):
     
     tens = self.get_tensors(tens)
@@ -274,9 +273,9 @@ class Reshape(Operation):
     return self.get_result_tensor(tens.data.reshape(new_shape), tens)
   
   def backward(self, tens):
-    
+   
     tens.set_grad_fn(lambda ug:ug.reshape(tens.shape))
 
 def reshape(tens, new_shape):
- 
+  
   return Reshape().forward(tens, new_shape)
