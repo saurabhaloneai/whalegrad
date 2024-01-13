@@ -1,9 +1,9 @@
 class Node:
   
 
-  def __init__(self, tens):
+  def __init__(self, whals):
     
-    self.tens = tens
+    self.whals = whals
     self.children = []
     self.parents = []
     self.parent_broadcast_shape = None
@@ -12,36 +12,36 @@ class Node:
   
   def topological_sort(self):
     
-    sorted_tensors = []
+    sorted_Whalors = []
     if self.are_children_visited():
       self.visited = True
-      sorted_tensors.append(self.tens)
+      sorted_Whalors.append(self.whals)
       for parent in self.parents:
         if not(parent.visited):
-          sorted_tensors+=parent.top_sort()
+          sorted_Whalors+=parent.topological_sort()
     else:
       for child in self.children:
         if not(child.visited):
-          sorted_tensors+=child.top_sort()
-    return sorted_tensors
+          sorted_Whalors+=child.topological_sort()
+    return sorted_Whalors
   
   def backward(self, retain_graph):
     
-    from toolbox import current_graph
+    from whalegrad.engine.toolbox import current_graph
     graph = current_graph()
     graph.reset_visited()
     self.visit_all_children()
-    sorted_tensors = self.top_sort()
+    sorted_Whalors = self.topological_sort()
     graph.reset_visited()
 
-    sorted_tensors.pop(0)
+    sorted_Whalors.pop(0)
     self.visited = True
-    self.tens._backward(self, retain_graph, calculate_grads=False)
+    self.whals._backward(self, retain_graph, calculate_grads=False)
 
-    for tens in sorted_tensors:
-      node = graph.get_node(tens)
+    for whals in sorted_Whalors:
+      node = graph.get_node(whals)
       node.visited = True
-      tens._backward(node, retain_graph)
+      whals._backward(node, retain_graph)
 
   def visit_all_children(self):
     
@@ -71,10 +71,10 @@ class Node:
     self.parents.append(other)
   
   def __repr__(self):
-    return f'Node({self.tens})'
+    return f'Node({self.whals})'
   
   def __str__(self):
-    return f'Node( \n{self.tens}\nbackward_fn: {self.backward_fn}\nvisited: {self.visited}\n )'
+    return f'Node( \n{self.whals}\nbackward_fn: {self.backward_fn}\nvisited: {self.visited}\n )'
 
 
 
@@ -82,9 +82,9 @@ class Node:
 # class Node:
  
 
-#   def __init__(self, tens):
+#   def __init__(self, whals):
    
-#     self.tens = tens
+#     self.whals = whals
 #     self.children = []
 #     self.parents = []
 #     self.parent_broadcast_shape = None
@@ -93,21 +93,21 @@ class Node:
   
 #   def topological_sort(self):
      
-#     sorted_tensors = []
+#     sorted_Whalors = []
     
 #     if not self.are_children_visited():
 #         for child in self.children:
 #             if not child.visited:
-#                 sorted_tensors += child.topological_sort()
+#                 sorted_Whalors += child.topological_sort()
 
 #     self.visited = True
-#     sorted_tensors.append(self.tens)
+#     sorted_Whalors.append(self.whals)
 
 #     for parent in self.parents:
 #         if not parent.visited:
-#             sorted_tensors += parent.topological_sort()
+#             sorted_Whalors += parent.topological_sort()
 
-#     return sorted_tensors
+#     return sorted_Whalors
          
 #   def backward(self, preserve_graph):
 #     from toolbox import current_graph
@@ -117,23 +117,23 @@ class Node:
     
 #     graph.reset_visited()
 #     self.visit_all_children()
-#     sorted_tensors = self.topological_sort()
+#     sorted_Whalors = self.topological_sort()
 #     graph.reset_visited()
 
-#     sorted_tensors.pop(0)  # Remove the Tensor corresponding to the current node
+#     sorted_Whalors.pop(0)  # Remove the Whalor corresponding to the current node
 #     self.visited = True
     
-#     print(f"Calling _backward on {self.tens}")
+#     print(f"Calling _backward on {self.whals}")
     
-#     self.tens._backward(self, preserve_graph, calculate_grads=False)
+#     self.whals._backward(self, preserve_graph, calculate_grads=False)
 
-#     for tens in sorted_tensors:
-#         node = graph.get_node(tens)
+#     for whals in sorted_Whalors:
+#         node = graph.get_node(whals)
 #         node.visited = True
         
-#         print(f"Calling _backward on {tens}")
+#         print(f"Calling _backward on {whals}")
         
-#         tens._backward(node, preserve_graph)
+#         whals._backward(node, preserve_graph)
        
   
 #   # def backward(self, preserve_graph):
@@ -143,17 +143,17 @@ class Node:
 #   #   graph = current_graph()
 #   #   graph.reset_visited()
 #   #   self.visit_all_children() # this allows for gradient calculation from any intermediate node in the graph
-#   #   sorted_tensors = self.topological_sort()
+#   #   sorted_Whalors = self.topological_sort()
 #   #   graph.reset_visited()
 
-#   #   sorted_tensors.pop(0) # Remove the Tensor corresponding to the current node
+#   #   sorted_Whalors.pop(0) # Remove the Whalor corresponding to the current node
 #   #   self.visited = True
-#   #   self.tens._backward(self, preserve_graph, calculate_grads=False)
+#   #   self.whals._backward(self, preserve_graph, calculate_grads=False)
 
-#   #   for tens in sorted_tensors:
-#   #     node = graph.get_node(tens)
+#   #   for whals in sorted_Whalors:
+#   #     node = graph.get_node(whals)
 #   #     node.visited = True
-#   #     tens._backward(node, preserve_graph)
+#   #     whals._backward(node, preserve_graph)
 
 #   def visit_all_children(self):
     
@@ -183,10 +183,10 @@ class Node:
 #     self.parents.append(other)
   
 #   def __repr__(self):
-#     return f'Node({self.tens})'
+#     return f'Node({self.whals})'
   
 #   def __str__(self):
-#     return f'Node( \n{self.tens}\nbackward_fn: {self.backward_fn}\nvisited: {self.visited}\n )'
+#     return f'Node( \n{self.whals}\nbackward_fn: {self.backward_fn}\nvisited: {self.visited}\n )'
   
 
   

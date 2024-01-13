@@ -8,3 +8,4 @@ testpypi_setup.py
 tests/fn_tester.py
 docs/build
 .env
+.vscode

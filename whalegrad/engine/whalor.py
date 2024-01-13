@@ -1,10 +1,9 @@
-from toolbox import process_data, unbroadcast_data
-from functions import add, sub, mul, div, pow as _pow, transpose, sum as _sum, exp, dot, flatten, reshape
+from .toolbox import check_data, unbroadcast_data
+from .functions import add, sub, mul, div, pow as _pow, transpose, sum as _sum, exp, dot, flatten, reshape
 
+#Whalor == Whalor , whals == whals , whalors == tensors. 
 
-class Tensor:
-  
-
+class Whalor:
   def __init__(self, data, requires_grad=False, requires_broadcasting=True):
     
     self.data = data
@@ -20,34 +19,34 @@ class Tensor:
   def backward(self, upper_grad=1., preserve_graph=False):
     
     if not(self.requires_grad):
-      raise ValueError("Only tensors who requires_grad can call backward")
-    from toolbox import current_graph
+      raise ValueError("Only Whalors who requires_grad can call backward")
+    from .toolbox import current_graph
     graph = current_graph()
-    upper_grad = process_data(upper_grad)
+    upper_grad = check_data(upper_grad)
     if self.shape!=upper_grad.shape:
-      raise ValueError("Shapes of grad and Tensor data must match!")
-    self.accumulate_grad(upper_grad) # Setting the grad of the current Tensor by adding the upper_grad
+      raise ValueError("Shapes of grad and Whalor data must match!")
+    self.accumulate_grad(upper_grad) # Setting the grad of the current Whalor by adding the upper_grad
     node = graph.get_node(self)
     node.backward(preserve_graph)
     if not(preserve_graph):
-      graph.reset_graph() # tensors are auto-removed, this is just for redundancy / safety
+      graph.reset_graph() # Whalors are auto-removed, this is just for redundancy / safety
   
   def _backward(self, node, preserve_graph, calculate_grads=True):
     
-    from toolbox import current_graph
+    from .toolbox import current_graph
     graph = current_graph()
     for child in node.children:
       if self.requires_grad and calculate_grads:
-        child.backward_fn(*[node.tens for node in child.parents])
-        upper_grad = child.tens.grad
+        child.backward_fn(*[node.whals for node in child.parents])
+        upper_grad = child.whals.grad
         grad = self.grad_fn(upper_grad)
         grad = unbroadcast_data(grad, self.shape, child.parent_broadcast_shape)
         grad = grad.reshape(self.shape)
         self.accumulate_grad(grad)
       if not(preserve_graph) and child.are_parents_visited():
-        graph.remove_tensor(child.tens)
+        graph.remove_Whalor(child.whals)
     if not(preserve_graph) and node.are_parents_visited():
-      graph.remove_tensor(node.tens)
+      graph.remove_Whalor(node.whals)
   
   def set_grad_fn(self, grad_fn):
     
@@ -133,7 +132,7 @@ class Tensor:
   @data.setter
   def data(self, data):
     
-    self._data = process_data(data)
+    self._data = check_data(data)
 
   @property
   def shape(self):
@@ -151,10 +150,10 @@ class Tensor:
     for index in indices:
       if type(index) not in supported_types:
         raise TypeError(f"Expected index of {supported_types} instead got {type(index)}")
-    return Tensor(self.data[indices], requires_grad=self.requires_grad)
+    return Whalor(self.data[indices], requires_grad=self.requires_grad)
   
   def __repr__(self):
-    return f'Tensor({self.data}, requires_grad={self.requires_grad})'
+    return f'Whalor({self.data}, requires_grad={self.requires_grad})'
   
   def __str__(self):
-    return f'Tensor( {self.data},\n requires_grad={self.requires_grad},\n grad_fn={self.grad_fn},\n shape={self.shape} )\n'
+    return f'Whalor( {self.data},\n requires_grad={self.requires_grad},\n grad_fn={self.grad_fn},\n shape={self.shape} )\n'

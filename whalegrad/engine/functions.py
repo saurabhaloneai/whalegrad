@@ -1,281 +1,282 @@
 import numpy as np
-from node import Node
+from whalegrad.engine.base.node import Node
 
 
-class Operation:
+class Action:
   
   
-  def process_operands(self, operands):
+  def process_inputs(self, inputs):
     
-    from tensor import Tensor
-    operands = list(operands)
-    for i,operand in enumerate(operands):
-      if not isinstance(operand, Tensor):
-        operands[i] = Tensor(operand)
-    return tuple(operands)
+    from .whalor import Whalor
+    inputs = list(inputs)
+    for i,operand in enumerate(inputs):
+      if not isinstance(operand, Whalor):
+        inputs[i] = Whalor(operand)
+    return tuple(inputs)
   
-  def get_tensors(self, *operands):
+  def get_Whalors(self, *inputs):
     
-    tensors = self.process_operands(operands)
-    if len(tensors)==0:
+    Whalors = self.process_inputs(inputs)
+    if len(Whalors)==0:
       return None
-    elif len(tensors)==1:
-      return tensors[0]
+    elif len(Whalors)==1:
+      return Whalors[0]
     else:
-      return tensors
+      return Whalors
   
-  def get_broadcast_shape(self, *tensors):
+  def get_broadcast_shape(self, *Whalors):
     
-    for tens in tensors:
-      if not(tens.requires_broadcasting):
+    for whals in Whalors:
+      if not(whals.requires_broadcasting):
         return None
     try:
-      return np.broadcast_shapes(*(tens.data.shape for tens in tensors))
+      return np.broadcast_shapes(*(whals.data.shape for whals in Whalors))
     except ValueError:
       return None
   
-  def result_requires_grad(self, tensors):
+  def result_requires_grad(self, Whalors):
     
-    for tens in tensors:
-      if tens.requires_grad:
+    for whals in Whalors:
+      if whals.requires_grad:
         return True
     return False
   
-  def get_result_tensor(self, result, *tensors):
+  def get_result_Whalor(self, result, *Whalors):
     
-    from tensor import Tensor
-    from toolbox import current_graph
+    from .whalor import Whalor
+    from .toolbox import current_graph
     graph = current_graph()
     result = result.astype(np.ndarray)
-    result_tensor = Tensor(result, self.result_requires_grad(tensors))
+    result_Whalor = Whalor(result, self.result_requires_grad(Whalors))
     if graph.track:
-      result_node = Node(result_tensor)
+      result_node = Node(result_Whalor)
       result_node.backward_fn = self.backward
-      result_node.parent_broadcast_shape = self.get_broadcast_shape(*tensors)
-      graph.create_edge(result_node, tensors)
-    return result_tensor
+      result_node.parent_broadcast_shape = self.get_broadcast_shape(*Whalors)
+      graph.create_edge(result_node, Whalors)
+    return result_Whalor
   
   def backward(self, *args):
     
-    raise NotImplementedError(f"Backward method not implemented for Operation {self}")
+    raise NotImplementedError(f"Backward method not implemented for Action {self}")
   
+'''-----------------------------------------------------------------------------------------------------------------------------'''
 
-class Add(Operation):
+class Add(Action):
     
   
-  def forward(self, tens1, tens2):
+  def forward(self, whals1, whals2):
       
-      tens1, tens2 = self.get_tensors(tens1, tens2)
-      return self.get_result_tensor(tens1.data+tens2.data, tens1, tens2)
+      whals1, whals2 = self.get_Whalors(whals1, whals2)
+      return self.get_result_Whalor(whals1.data+whals2.data, whals1, whals2)
   
-  def backward(self, tens1, tens2):
+  def backward(self, whals1, whals2):
      
-      tens1.set_grad_fn(lambda ug:ug)
-      tens2.set_grad_fn(lambda ug:ug)
+      whals1.set_grad_fn(lambda ug:ug)
+      whals2.set_grad_fn(lambda ug:ug)
   
-def add(tens1, tens2):
+def add(whals1, whals2):
     
-    return Add().forward(tens1, tens2)
+    return Add().forward(whals1, whals2)
   
   
 # <------------SUB------------>
-class Sub(Operation):
+class Sub(Action):
   
-  def forward(self, tens1, tens2):
+  def forward(self, whals1, whals2):
     
-    tens1, tens2 = self.get_tensors(tens1, tens2)
-    return self.get_result_tensor(tens1.data-tens2.data, tens1, tens2)
+    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    return self.get_result_Whalor(whals1.data-whals2.data, whals1, whals2)
   
-  def backward(self, tens1, tens2):
+  def backward(self, whals1, whals2):
    
-    tens1.set_grad_fn(lambda ug:ug)
-    tens2.set_grad_fn(lambda ug:-ug)
+    whals1.set_grad_fn(lambda ug:ug)
+    whals2.set_grad_fn(lambda ug:-ug)
 
-def sub(tens1, tens2):
+def sub(whals1, whals2):
   
-  return Sub().forward(tens1, tens2)
+  return Sub().forward(whals1, whals2)
 
 
 # <------------MUL------------>
-class Mul(Operation):
+class Mul(Action):
   
-  def forward(self, tens1, tens2):
+  def forward(self, whals1, whals2):
     
-    tens1, tens2 = self.get_tensors(tens1, tens2)
-    return self.get_result_tensor(tens1.data*tens2.data, tens1, tens2)
+    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    return self.get_result_Whalor(whals1.data*whals2.data, whals1, whals2)
   
-  def backward(self, tens1, tens2):
+  def backward(self, whals1, whals2):
     
-    tens1.set_grad_fn(lambda ug:tens2.data*ug)
-    tens2.set_grad_fn(lambda ug:tens1.data*ug)
+    whals1.set_grad_fn(lambda ug:whals2.data*ug)
+    whals2.set_grad_fn(lambda ug:whals1.data*ug)
 
-def mul(tens1, tens2):
+def mul(whals1, whals2):
   
-  return Mul().forward(tens1, tens2)
+  return Mul().forward(whals1, whals2)
 
 
 # <------------DIV------------>
-class Div(Operation):
+class Div(Action):
   
-  def forward(self, tens1, tens2):
+  def forward(self, whals1, whals2):
     
-    tens1, tens2 = self.get_tensors(tens1, tens2)
-    return self.get_result_tensor(tens1.data/tens2.data, tens1, tens2)
+    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    return self.get_result_Whalor(whals1.data/whals2.data, whals1, whals2)
   
-  def backward(self, tens1, tens2):
+  def backward(self, whals1, whals2):
     
-    tens1.set_grad_fn(lambda ug:(1/tens2.data)*ug)
-    tens2.set_grad_fn(lambda ug:((-1*tens1.data)/np.power(tens2.data, 2))*ug)
+    whals1.set_grad_fn(lambda ug:(1/whals2.data)*ug)
+    whals2.set_grad_fn(lambda ug:((-1*whals1.data)/np.power(whals2.data, 2))*ug)
 
-def div(tens1, tens2):
+def div(whals1, whals2):
   
-  return Div().forward(tens1, tens2)
+  return Div().forward(whals1, whals2)
 
 
 # <------------DOT------------>
-class Dot(Operation):
+class Dot(Action):
   
-  def forward(self, tens1, tens2):
+  def forward(self, whals1, whals2):
     
-    tens1, tens2 = self.get_tensors(tens1, tens2)
-    return self.get_result_tensor(np.dot(tens1.data, tens2.data), tens1, tens2)
+    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    return self.get_result_Whalor(np.dot(whals1.data, whals2.data), whals1, whals2)
   
-  def backward(self, tens1, tens2):
+  def backward(self, whals1, whals2):
     
-    tens1.set_grad_fn(lambda ug:np.dot(ug, tens2.data.T))
-    tens2.set_grad_fn(lambda ug:np.dot(tens1.data.T, ug))
+    whals1.set_grad_fn(lambda ug:np.dot(ug, whals2.data.T))
+    whals2.set_grad_fn(lambda ug:np.dot(whals1.data.T, ug))
 
-def dot(tens1, tens2):
+def dot(whals1, whals2):
   
-  return Dot().forward(tens1, tens2)
+  return Dot().forward(whals1, whals2)
 
 
 # <------------EXP------------>
-class Exp(Operation):
+class Exp(Action):
   
-  def forward(self, tens):
+  def forward(self, whals):
     
-    tens = self.get_tensors(tens)
-    return self.get_result_tensor(np.exp(tens.data), tens)
+    whals = self.get_Whalors(whals)
+    return self.get_result_Whalor(np.exp(whals.data), whals)
   
-  def backward(self, tens):
+  def backward(self, whals):
     
-    tens.set_grad_fn(lambda ug:np.exp(tens.data)*ug)
+    whals.set_grad_fn(lambda ug:np.exp(whals.data)*ug)
 
-def exp(tens):
+def exp(whals):
   
-  return Exp().forward(tens)
+  return Exp().forward(whals)
 
 
 # <------------LOG------------>
-class Log(Operation):
+class Log(Action):
   
-  def forward(self, tens):
+  def forward(self, whals):
     
-    tens = self.get_tensors(tens)
-    return self.get_result_tensor(np.log(tens.data), tens)
+    whals = self.get_Whalors(whals)
+    return self.get_result_Whalor(np.log(whals.data), whals)
   
-  def backward(self, tens):
+  def backward(self, whals):
     
-    tens.set_grad_fn(lambda ug:(1/tens.data)*ug)
+    whals.set_grad_fn(lambda ug:(1/whals.data)*ug)
 
-def log(tens):
+def log(whals):
   
-  return Log().forward(tens)
+  return Log().forward(whals)
 
 
 # <------------POW------------>
-class Pow(Operation):
+class Pow(Action):
   
-  def forward(self, tens1, tens2):
+  def forward(self, whals1, whals2):
     
-    tens1, tens2 = self.get_tensors(tens1, tens2)
-    return self.get_result_tensor(np.power(tens1.data, tens2.data), tens1, tens2)
+    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    return self.get_result_Whalor(np.power(whals1.data, whals2.data), whals1, whals2)
   
-  def backward(self, tens1, tens2):
+  def backward(self, whals1, whals2):
     
-    result = np.power(tens1.data, tens2.data)
-    tens1.set_grad_fn(lambda ug:(np.power(tens1.data, tens2.data-1) * tens2.data)*ug)
-    tens2.set_grad_fn(lambda ug:(result*np.log(tens1.data))*ug)
+    result = np.power(whals1.data, whals2.data)
+    whals1.set_grad_fn(lambda ug:(np.power(whals1.data, whals2.data-1) * whals2.data)*ug)
+    whals2.set_grad_fn(lambda ug:(result*np.log(whals1.data))*ug)
 
-def pow(tens1, tens2):
+def pow(whals1, whals2):
   
-  return Pow().forward(tens1, tens2)
+  return Pow().forward(whals1, whals2)
 
 
 # <------------SUM------------>
-class Sum(Operation):
+class Sum(Action):
   
   def __init__(self, axis=None):
     
     self.axis = axis
   
-  def forward(self, tens):
+  def forward(self, whals):
     
-    tens = self.get_tensors(tens)
-    return self.get_result_tensor(np.sum(tens.data, axis=self.axis), tens)
+    whals = self.get_Whalors(whals)
+    return self.get_result_Whalor(np.sum(whals.data, axis=self.axis), whals)
   
-  def backward(self, tens):
+  def backward(self, whals):
     
     def sum_backward(ug):
       if self.axis is not None:
         ug = np.expand_dims(ug, axis=self.axis)
-      grads = np.ones(tens.shape)*ug
+      grads = np.ones(whals.shape)*ug
       return grads
-    tens.set_grad_fn(sum_backward)
+    whals.set_grad_fn(sum_backward)
 
-def sum(tens, axis=None):
+def sum(whals, axis=None):
   
-  return Sum(axis).forward(tens)
+  return Sum(axis).forward(whals)
 
 
 # <------------TRANSPOSE------------>
-class Transpose(Operation):
+class Transpose(Action):
   
-  def forward(self, tens):
+  def forward(self, whals):
     
-    tens = self.get_tensors(tens)
-    return self.get_result_tensor(tens.data.T, tens)
+    whals = self.get_Whalors(whals)
+    return self.get_result_Whalor(whals.data.T, whals)
 
-  def backward(self, tens):
+  def backward(self, whals):
     
-    tens.set_grad_fn(lambda ug:ug.T)
+    whals.set_grad_fn(lambda ug:ug.T)
 
-def transpose(tens):
+def transpose(whals):
   
-  return Transpose().forward(tens)
+  return Transpose().forward(whals)
 
 
 # <------------FLATTEN------------>
-class Flatten(Operation):
+class Flatten(Action):
   
-  def forward(self, tens):
+  def forward(self, whals):
     
-    tens = self.get_tensors(tens)
-    flattened = tens.data.flatten()
-    return self.get_result_tensor(flattened.reshape(flattened.shape[0],1), tens)
+    whals = self.get_Whalors(whals)
+    flattened = whals.data.flatten()
+    return self.get_result_Whalor(flattened.reshape(flattened.shape[0],1), whals)
   
-  def backward(self, tens):
+  def backward(self, whals):
     
-    tens.set_grad_fn(lambda ug:ug.reshape(tens.shape))
+    whals.set_grad_fn(lambda ug:ug.reshape(whals.shape))
 
-def flatten(tens):
+def flatten(whals):
   
-  return Flatten().forward(tens)
+  return Flatten().forward(whals)
 
 
 # <------------RESHAPE------------>
-class Reshape(Operation):
+class Reshape(Action):
   
-  def forward(self, tens, new_shape):
+  def forward(self, whals, new_shape):
     
-    tens = self.get_tensors(tens)
-    return self.get_result_tensor(tens.data.reshape(new_shape), tens)
+    whals = self.get_Whalors(whals)
+    return self.get_result_Whalor(whals.data.reshape(new_shape), whals)
   
-  def backward(self, tens):
+  def backward(self, whals):
    
-    tens.set_grad_fn(lambda ug:ug.reshape(tens.shape))
+    whals.set_grad_fn(lambda ug:ug.reshape(whals.shape))
 
-def reshape(tens, new_shape):
+def reshape(whals, new_shape):
   
-  return Reshape().forward(tens, new_shape)
+  return Reshape().forward(whals, new_shape)
