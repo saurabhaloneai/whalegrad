@@ -4,6 +4,9 @@ WhaleGrad a deep learning framework based on Python and NumPy with experimental 
 
 ![](https://github.com/saurabhaloneai/whalegrad/blob/main/images/whalegrad.png)
 
-# Xmas is over yeah this was my xmas look 
-![](https://github.com/saurabhaloneai/whalegrad/blob/main/images/xmas.png)
+# Whalor
+
+* It is multi-dim array like Tensor.
+* It support float, int numpy-array and list.
+
 
