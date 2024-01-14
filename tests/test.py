@@ -6,5 +6,6 @@
 # 3. loss => mse, Binary Cross Entropy
 # 4. acc => manual
 # 5. activation => sigmoid, relu and tanh
-# 6. no grad caln for inference like pytoch 
+# 6. no grad caln for inference like pytoch
+# 7. save and load model 
 
