@@ -8,4 +8,5 @@
 # 5. activation => sigmoid, relu and tanh
 # 6. no grad caln for inference like pytoch
 # 7. save and load model 
+# 8. add more activation function
 
