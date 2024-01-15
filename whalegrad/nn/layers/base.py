@@ -58,55 +58,55 @@ class Container:
     return layers_str
 
 
-# class Layer:
+class Layer:
   
-#   def __init__(self):
-#     self.eval = False
+  def __init__(self):
+    self.eval = False
 
-#   def __call__(self, inputs):
+  def __call__(self, inputs):
     
-#     return self.forward(inputs)
+    return self.forward(inputs)
 
-#   def parameters(self, as_dict=False):
+  def parameters(self, as_dict=False):
    
-#     params = {}
-#     for attr, val in self.__dict__.items():
-#       if isinstance(val, Param):
-#         params[attr] = val.data if as_dict else val
-#     return params if as_dict else list(params.values())
+    params = {}
+    for attr, val in self.__dict__.items():
+      if isinstance(val, Param):
+        params[attr] = val.data if as_dict else val
+    return params if as_dict else list(params.values())
   
-#   def set_eval(self, eval):
+  def set_eval(self, eval):
     
-#     self.eval = eval
+    self.eval = eval
   
-#   def set_params(self, layer_params):
+  def set_params(self, layer_params):
     
-#     for attr, param_data in layer_params.items():
-#       param = self.__getattribute__(attr)
-#       param.data = param_data
+    for attr, param_data in layer_params.items():
+      param = self.__getattribute__(attr)
+      param.data = param_data
   
-#   def freeze(self):
+  def freeze(self):
     
-#     for param in self.parameters(as_dict=False):
-#       param.freeze()
+    for param in self.parameters(as_dict=False):
+      param.freeze()
   
-#   def unfreeze(self):
+  def unfreeze(self):
     
-#     for param in self.parameters(as_dict=False):
-#       param.unfreeze()
+    for param in self.parameters(as_dict=False):
+      param.unfreeze()
   
-#   def __getstate__(self):
+  def __getstate__(self):
     
-#     state = deepcopy(self.__dict__)
-#     for param_attr in self.parameters(as_dict=True).keys():
-#       state[param_attr].data = 0 # Wanted to set it to None, but it isnt supported by  Whalor, so set it to the next best 0
-#     return state
+    state = deepcopy(self.__dict__)
+    for param_attr in self.parameters(as_dict=True).keys():
+      state[param_attr].data = 0 # Wanted to set it to None, but it isnt supported by  Whalor, so set it to the next best 0
+    return state
   
-#   def __setattr__(self, attr, val):
+  def __setattr__(self, attr, val):
     
-#     if (isinstance(val, Param)) and (attr in self.__dict__):
-#       raise AttributeError(f"Attribute {attr} has already been defined, it cannot be defined again for a Param")
-#     object.__setattr__(self, attr, val)
+    if (isinstance(val, Param)) and (attr in self.__dict__):
+      raise AttributeError(f"Attribute {attr} has already been defined, it cannot be defined again for a Param")
+    object.__setattr__(self, attr, val)
 
 
 class Param(Whalor):
