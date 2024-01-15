@@ -12,29 +12,28 @@
 
 
 # y = xw + b
+# import numpy as np
+# from whalegrad.nn.layers.base import Module
+
+from whalegrad.nn.acc import acc
+
+# linear_layer = Linear(in_features=3, out_features=2)
+
+# # Generate some random input data (replace this with your actual input data)
+# input_data = np.random.randn(1, 3)
+
+# # Perform forward pass
+# output = linear_layer.forward(input_data)
+
+# # Print the results
+# print("Linear Layer Representation:", linear_layer)
+# print("Input Data:\n", input_data)
+# print("Output:\n", output)
+
 import numpy as np
-from whalegrad.nn.layers.base import Module
-from whalegrad.nn.layers.linear import Linear
 
-# class model(Module):
-    
-#     def__init__(self,in_features.)
+y_preds = np.array([0.9, 0.2, 0.1, 0.5, 0.8 ])
+y_true = np.array([0.9, 0.2, 0.1, 0.5, 0.7 ])
 
-
-# x# Assuming you have already defined your Module and Param classes
-# ...
-
-# Create an instance of the Linear class
-linear_layer = Linear(in_features=3, out_features=2)
-
-# Generate some random input data (replace this with your actual input data)
-input_data = np.random.randn(1, 3)
-
-# Perform forward pass
-output = linear_layer.forward(input_data)
-
-# Print the results
-print("Linear Layer Representation:", linear_layer)
-print("Input Data:\n", input_data)
-print("Output:\n", output)
-  
+acc = acc(y_preds, y_true)
+print(acc)
