@@ -6,7 +6,7 @@ class Container:
   
   def __init__(self):
     self.eval = False
-    self.layers = None
+    self.Modules = None
 
   def __call__(self, inputs):
    
@@ -15,50 +15,50 @@ class Container:
   def parameters(self, as_dict=False):
    
     params = []
-    for layer in self.layers:
+    for Module in self.Modules:
       if as_dict:
-        params.append(layer.parameters(as_dict))
+        params.append(Module.parameters(as_dict))
       else:
-        params+=layer.parameters(as_dict)
+        params+=Module.parameters(as_dict)
     return params
   
   def set_eval(self, eval):
     
     self.eval = eval
-    for layer in self.layers:
-      layer.set_eval(eval)
+    for Module in self.Modules:
+      Module.set_eval(eval)
   
   def set_params(self, container_params):
     
-    for layer_param, layer in zip(container_params, self.layers):
-      layer.set_params(layer_param)
+    for Module_param, Module in zip(container_params, self.Modules):
+      Module.set_params(Module_param)
   
   def freeze(self):
     
-    for layer in self.layers:
-      layer.freeze()
+    for Module in self.Modules:
+      Module.freeze()
   
   def unfreeze(self):
     
-    for layer in self.layers:
-      layer.unfreeze()
+    for Module in self.Modules:
+      Module.unfreeze()
   
   def __repr__(self):
-    layers = []
-    for layer in self.layers:
-      layers.append(f'{layer.__str__()}')
-    layers_repr = ', '.join(layers)
-    return layers_repr
+    Modules = []
+    for Module in self.Modules:
+      Modules.append(f'{Module.__str__()}')
+    Modules_repr = ', '.join(Modules)
+    return Modules_repr
   
   def __str__(self):
-    layers = []
-    for layer in self.layers:
-      layers.append(f'{layer.__repr__()}')
-    layers_str = ', '.join(layers)
-    return layers_str
+    Modules = []
+    for Module in self.Modules:
+      Modules.append(f'{Module.__repr__()}')
+    Modules_str = ', '.join(Modules)
+    return Modules_str
 
 
-class Layer:
+class Module:
   
   def __init__(self):
     self.eval = False
@@ -79,9 +79,9 @@ class Layer:
     
     self.eval = eval
   
-  def set_params(self, layer_params):
+  def set_params(self, Module_params):
     
-    for attr, param_data in layer_params.items():
+    for attr, param_data in Module_params.items():
       param = self.__getattribute__(attr)
       param.data = param_data
   

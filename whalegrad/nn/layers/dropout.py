@@ -1,4 +1,4 @@
-# lest build the dropout layer
+# lest build the dropout Module
  
 class dropout:
     
