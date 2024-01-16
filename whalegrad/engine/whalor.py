@@ -1,7 +1,7 @@
 from .toolbox import check_data, unbroadcast_data
 from .functions import add, sub, mul, div, pow as _pow, transpose, sum as _sum, exp, dot, flatten, reshape
 
-#Whalor == Whalor , whals == whals , whalors == tensors. 
+#Whalor == Whalor , whals == whals , whalors ==  Whalors. 
 
 class Whalor:
   def __init__(self, data, requires_grad=False, requires_broadcasting=True):
