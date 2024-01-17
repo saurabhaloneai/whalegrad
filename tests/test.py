@@ -46,3 +46,42 @@
 
 # # Print the result
 # print("Accuracy:", accuracy)
+
+import numpy as np
+from whalegrad.engine.whalor import Whalor
+import matplotlib.pyplot as plt
+from whalegrad.nn.layers.activations import sigmoid, LeakyReLU, tanh
+from _setup import execute
+
+
+
+from whalegrad.nn.layers.linear import Linear
+
+# layer = Linear(in_features=1, out_features=2)
+
+# a = np.arange(-10,10,0.1).reshape(-1, 1)
+# a = Whalor(a)
+# output = layer.forward(a)
+
+
+
+# # Plot the results
+# plt.plot(a, output[:, 0], label='Output 1 (tanh)')
+# plt.plot(a, output[:, 1], label='Output 2 (tanh)')
+# plt.legend()
+# plt.show()
+
+a = np.array(3)
+b = np.array([1,2,3])
+c = np.array([[3,4,5], [6,7,8]])
+d = np.array([[[9,8,7], [6,5,4]], [[1,2,3], [4,5,6]]])
+e = np.array([[1,2], [3,4]])
+f = np.array([[0.5, -2, 1], [-1, -0.4, 20]])
+
+
+
+
+# <------------SIGMOID------------>
+def test_sigmoid():
+  sigmoid = sigmoid()
+  execute(sigmoid, [c])

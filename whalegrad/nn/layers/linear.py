@@ -1,6 +1,6 @@
-from .base import Module
+from base import Module
 from whalegrad.engine.functions import dot
-from .base import Param
+from base import Param
 import numpy as np
 
 class Linear(Module):
