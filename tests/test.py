@@ -11,77 +11,48 @@
 # 8. add more activation function
 
 
-# y = xw + b
-# import numpy as np
-# from whalegrad.nn.layers.base import Module
 
-# from whalegrad.nn.acc import Accuracy
-
-# linear_layer = Linear(in_features=3, out_features=2)
-
-# # Generate some random input data (replace this with your actual input data)
-# input_data = np.random.randn(1, 3)
-
-# # Perform forward pass
-# output = linear_layer.forward(input_data)
-
-# # Print the results
-# print("Linear Layer Representation:", linear_layer)
-# print("Input Data:\n", input_data)
-# print("Output:\n", output)
-
-# import numpy as np
-
-# # y_preds = np.array([0.9, 0.2, 0.1, 0.5, 0.8 ])
-# # y_true = np.array([0.9, 0.2, 0.1, 0.5, 0.7 ])
-
-# # accc = acc()
-
-# # print(accc.forward(y_preds=y_preds, y_true=y_true))
-# # Create an instance of the Accuracy class
-# accuracy_calculator = Accuracy(y_preds=np.array([1, 20, 90, 89, 50]), y_true=np.array([1, 2, 3, 4, 0]))
-
-# # Calculate the accuracy using the forward method
-# accuracy = accuracy_calculator.forward()
-
-# # Print the result
-# print("Accuracy:", accuracy)
-
-import numpy as np
-from whalegrad.engine.whalor import Whalor
-import matplotlib.pyplot as plt
-from whalegrad.nn.layers.activations import sigmoid, LeakyReLU, tanh
-from _setup import execute
-
-
-
+from whalegrad.nn.layers.activations import ReLU, sigmoid, tanh
 from whalegrad.nn.layers.linear import Linear
+from whalegrad.nn.loss import BinaryCrossEntropy
+from whalegrad.nn.layers.base import Model
+from whalegrad.nn.optim import Adam
+from whalegrad.engine.whalor import Whalor
+from whalegrad.nn.layers.containers import Sequential
 
-# layer = Linear(in_features=1, out_features=2)
+from sklearn.datasets import make_circles
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, accuracy_score
 
-# a = np.arange(-10,10,0.1).reshape(-1, 1)
-# a = Whalor(a)
-# output = layer.forward(a)
-
-
-
-# # Plot the results
-# plt.plot(a, output[:, 0], label='Output 1 (tanh)')
-# plt.plot(a, output[:, 1], label='Output 2 (tanh)')
-# plt.legend()
-# plt.show()
-
-a = np.array(3)
-b = np.array([1,2,3])
-c = np.array([[3,4,5], [6,7,8]])
-d = np.array([[[9,8,7], [6,5,4]], [[1,2,3], [4,5,6]]])
-e = np.array([[1,2], [3,4]])
-f = np.array([[0.5, -2, 1], [-1, -0.4, 20]])
+# load data
+X, y = make_circles(n_samples=1000, noise=0.05, random_state=100)
+X_train_orig, X_test_orig, y_train_orig, y_test_orig = train_test_split(X,y)
 
 
+num_train, num_test = 750, 250 # number of train and test examples
+num_iter = 50 # number of iterations
 
 
-# <------------SIGMOID------------>
-def test_sigmoid():
-  sigmoid = sigmoid()
-  execute(sigmoid, [c])
+X_train, X_test = Whalor(X_train_orig[:num_train,:]), Whalor(X_test_orig[:num_test,:])
+y_train, y_test = Whalor(y_train_orig[:num_train].reshape(num_train,1)), Whalor(y_test_orig[:num_test].reshape(num_test,1))
+
+
+class NN(Model):
+  def __init__(self):
+    
+    super(NN, self).__init__()
+      
+    
+    self.layer1 =  self.Linear(2,100)
+    self.ReLU = ReLU()  
+    self.layer2 = self.Linear(100,1)
+    self.layer3 = self.sigmoid()
+    
+  
+  def forward(self, inputs):
+    return self.layer3(self.layer2(self.layer1(inputs)))
+  
+  
+model = NN()
+loss_fn =BinaryCrossEntropy()
+optim = Adam(model.parameters(), 0.05)
