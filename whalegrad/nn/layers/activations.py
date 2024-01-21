@@ -23,7 +23,7 @@ class ReLU(Core, Action):
 
 
 # <------------SIGMOID------------>
-class Sigmoid(Core, Action):
+class sigmoid(Core, Action):
   
   def forward(self, inputs):
     
@@ -43,7 +43,7 @@ class Sigmoid(Core, Action):
 
 
 # <------------TANH------------>
-class Tanh(Core, Action):
+class tanh(Core, Action):
   
   def forward(self, inputs):
     
@@ -63,7 +63,7 @@ class Tanh(Core, Action):
 
 
 # <------------SOFTMAX------------>
-class Softmax(Core, Action):
+class softmax(Core, Action):
   
   def __init__(self, axis):
     
@@ -77,7 +77,7 @@ class Softmax(Core, Action):
   
   def backward(self, inputs):
     
-    def softmax_grad(arr, ug_slices): # arr will always be 1d array
+    def softmax_grad(arr, ug_slices): 
       local_grad = -np.broadcast_to(arr, (arr.size, arr.size))
       np.fill_diagonal(local_grad, 1+np.diagonal(local_grad))
       local_grad = local_grad*arr.reshape(arr.size, 1)

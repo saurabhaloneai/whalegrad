@@ -1,7 +1,7 @@
 import numpy as np
 from whalegrad.engine.functions import sum as _sum, log
 from whalegrad.engine.functions import Action
-from whalegrad.nn.layers.activations import Softmax
+from whalegrad.nn.layers.activations import softmax
 
 
 class Loss:
@@ -19,7 +19,7 @@ class Loss:
 
 
 # <------------MEANSQUAREDERROR------------>
-class MSE(Loss):
+class MeanSquaredError(Loss):
   
   def forward(self, outputs, targets):
     
@@ -35,7 +35,7 @@ class MSE(Loss):
 
 
 # <------------BINARYCROSSENTROPY------------>
-class BCE(Loss):
+class BinaryCrossEntropy(Loss):
   
   def forward(self, outputs, targets, epsilon=1e-9):
     
@@ -52,7 +52,7 @@ class BCE(Loss):
 
 
 # <------------CROSSENTROPY------------>
-class CE(Loss):
+class CrossEntropy(Loss):
   
   def forward(self, outputs, targets, epsilon=1e-9):
     
@@ -77,7 +77,7 @@ class SoftmaxCE(Action, Loss):
   def forward(self, outputs, targets, epsilon=1e-9):
     
     num_examples = self.get_num_examples(outputs.shape)
-    probs = Softmax.calc_softmax(outputs.data, axis=self.axis)
+    probs = softmax.calc_softmax(outputs.data, axis=self.axis)
     entropy = np.sum(targets.data*np.log(probs+epsilon))
     cost = (-1/num_examples)*entropy
     return self.get_result_Whalor(cost, outputs, targets)
@@ -86,7 +86,7 @@ class SoftmaxCE(Action, Loss):
     
     def sce_backward(ug):
       num_examples = self.get_num_examples(outputs.shape)
-      probs = Softmax.calc_softmax(outputs.data, axis=self.axis)
+      probs = softmax.calc_softmax(outputs.data, axis=self.axis)
       return (ug/num_examples)*(probs-targets.data) # ug is a scalar(1 by default), because loss calculated in forward is a scalar
     outputs.set_grad_fn(sce_backward)
     assert targets.requires_grad is False, 'Targets Tensor should have requires_grad=False'

@@ -17,7 +17,7 @@ class Optimizer:
         param.zero_grad()
 
 
-class GD(Optimizer):
+class SGD(Optimizer):
   
   def __init__(self, params, lr):
     super().__init__(params, lr)
