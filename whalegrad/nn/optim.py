@@ -17,56 +17,56 @@ class Optimizer:
         param.zero_grad()
 
 
-# class SGD(Optimizer):
+class SGD(Optimizer):
   
-#   def __init__(self, params, lr):
-#     super().__init__(params, lr)
-  
-#   def step(self):
-#     '''Updates the params
-#     '''
-#     for param in self.params:
-#       if param.requires_grad:
-#         param.data -= (self.lr*param.grad)
-  
-#   def __repr__(self):
-#     return f'GD(params={self.params}, lr={self.lr})'
-  
-#   def __str__(self):
-#     return f'GD(params={self.params}, lr={self.lr})'
-
-
-class Momentum(Optimizer):
-  
-  def __init__(self, params, lr, beta=0.9):
+  def __init__(self, params, lr):
     super().__init__(params, lr)
-    self.beta = beta
-    self.init_momentum_grads()
-
+  
   def step(self):
-    
-    self.update_momentum_grads()
+    '''Updates the params
+    '''
     for param in self.params:
       if param.requires_grad:
-        param.data -= (self.lr*param.momentum_grad)
-  
-  def init_momentum_grads(self):
-    
-    for param in self.params:
-      if param.requires_grad:
-        param.momentum_grad = 0
-  
-  def update_momentum_grads(self):
-    
-    for param in self.params:
-      if param.requires_grad:
-        param.momentum_grad = (self.beta*param.momentum_grad) + ((1-self.beta)*param.grad)
+        param.data -= (self.lr*param.grad)
   
   def __repr__(self):
-    return f'Momentum(params={self.params}, lr={self.lr}, beta={self.beta})'
+    return f'GD(params={self.params}, lr={self.lr})'
   
   def __str__(self):
-    return f'Momentum(params={self.params}, lr={self.lr}, beta={self.beta})'
+    return f'GD(params={self.params}, lr={self.lr})'
+
+
+# class Momentum(Optimizer):
+  
+#   def __init__(self, params, lr, beta=0.9):
+#     super().__init__(params, lr)
+#     self.beta = beta
+#     self.init_momentum_grads()
+
+#   def step(self):
+    
+#     self.update_momentum_grads()
+#     for param in self.params:
+#       if param.requires_grad:
+#         param.data -= (self.lr*param.momentum_grad)
+  
+#   def init_momentum_grads(self):
+    
+#     for param in self.params:
+#       if param.requires_grad:
+#         param.momentum_grad = 0
+  
+#   def update_momentum_grads(self):
+    
+#     for param in self.params:
+#       if param.requires_grad:
+#         param.momentum_grad = (self.beta*param.momentum_grad) + ((1-self.beta)*param.grad)
+  
+#   def __repr__(self):
+#     return f'Momentum(params={self.params}, lr={self.lr}, beta={self.beta})'
+  
+#   def __str__(self):
+#     return f'Momentum(params={self.params}, lr={self.lr}, beta={self.beta})'
 
 
 class RMSProp(Optimizer):
