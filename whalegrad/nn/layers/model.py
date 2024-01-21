@@ -1,6 +1,7 @@
 import dill
 from itertools import chain as list_flattener
-from .base import Container, Layer
+from .containers import Container
+from .base import Core
 from whalegrad.engine.toolbox import current_graph
 
 
@@ -17,7 +18,7 @@ class Model:
     
     layers = {}
     for attr, val in self.__dict__.items():
-      if isinstance(val, (Container, Layer)):
+      if isinstance(val, (Container, Core)):
         layers[attr] = val
     return layers
   
@@ -51,8 +52,8 @@ class Model:
   
   def __setattr__(self, attr, val):
     
-    if isinstance(val, (Container, Layer)) and (attr in self.__dict__):
-      raise AttributeError(f"Attribute {attr} has already been defined, it cannot be defined again for a Container/Layer")
+    if isinstance(val, (Container, Core)) and (attr in self.__dict__):
+      raise AttributeError(f"Attribute {attr} has already been defined, it cannot be defined again for a Container/Core")
     object.__setattr__(self, attr, val)
   
   def __repr__(self):

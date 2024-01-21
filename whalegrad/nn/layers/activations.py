@@ -1,10 +1,10 @@
-from .base import Layer
+from .base import Core
 from whalegrad.engine.functions import Action
 import numpy as np
 
 
 # <------------RELU------------>
-class ReLU(Layer, Action):
+class ReLU(Core, Action):
   
   def forward(self, inputs):
     
@@ -23,7 +23,7 @@ class ReLU(Layer, Action):
 
 
 # <------------SIGMOID------------>
-class Sigmoid(Layer, Action):
+class Sigmoid(Core, Action):
   
   def forward(self, inputs):
     
@@ -43,7 +43,7 @@ class Sigmoid(Layer, Action):
 
 
 # <------------TANH------------>
-class Tanh(Layer, Action):
+class Tanh(Core, Action):
   
   def forward(self, inputs):
     
@@ -63,7 +63,7 @@ class Tanh(Layer, Action):
 
 
 # <------------SOFTMAX------------>
-class Softmax(Layer, Action):
+class Softmax(Core, Action):
   
   def __init__(self, axis):
     
@@ -111,7 +111,7 @@ class Softmax(Layer, Action):
 
 
 # <------------LEAKYRELU------------>
-class LeakyReLU(Layer, Action):
+class LeakyReLU(Core, Action):
   
   def __init__(self, leak=0.01):
     
