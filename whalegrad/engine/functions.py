@@ -145,6 +145,7 @@ class Dot(Action):
     
     whals1.set_grad_fn(lambda ug:np.dot(ug, whals2.data.T))
     whals2.set_grad_fn(lambda ug:np.dot(whals1.data.T, ug))
+    return whals1.grad, whals2.grad
 
 def dot(whals1, whals2):
   
