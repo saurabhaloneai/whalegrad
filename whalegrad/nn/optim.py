@@ -2,19 +2,19 @@ import numpy as np
 from whalegrad.engine.toolbox import current_graph
 
 
-# class Optimizer:
+class Optimizer:
   
-#   def __init__(self, params, lr):
-#     self.params = params
-#     self.lr = lr
+  def __init__(self, params, lr):
+    self.params = params
+    self.lr = lr
 
-#   def zero_grad(self, all_members=False):
+  def zero_grad(self, all_members=False):
     
-#     if all_members:
-#       graph = current_graph()
-#       graph.zero_grad()
-#     for param in self.params: # This is done for redundancy, if all_members=True on a graph that's been reset
-#         param.zero_grad()
+    if all_members:
+      graph = current_graph()
+      graph.zero_grad()
+    for param in self.params: # This is done for redundancy, if all_members=True on a graph that's been reset
+        param.zero_grad()
 
 
 class SGD(Optimizer):
