@@ -17,23 +17,23 @@ class Optimizer:
         param.zero_grad()
 
 
-class SGD(Optimizer):
+# class SGD(Optimizer):
   
-  def __init__(self, params, lr):
-    super().__init__(params, lr)
+#   def __init__(self, params, lr):
+#     super().__init__(params, lr)
   
-  def step(self):
-    '''Updates the params
-    '''
-    for param in self.params:
-      if param.requires_grad:
-        param.data -= (self.lr*param.grad)
+#   def step(self):
+#     '''Updates the params
+#     '''
+#     for param in self.params:
+#       if param.requires_grad:
+#         param.data -= (self.lr*param.grad)
   
-  def __repr__(self):
-    return f'GD(params={self.params}, lr={self.lr})'
+#   def __repr__(self):
+#     return f'GD(params={self.params}, lr={self.lr})'
   
-  def __str__(self):
-    return f'GD(params={self.params}, lr={self.lr})'
+#   def __str__(self):
+#     return f'GD(params={self.params}, lr={self.lr})'
 
 
 class Momentum(Optimizer):
