@@ -12,21 +12,20 @@ class Dropout(Core, Action):
   
   def __init__(self, prob):
     Core.__init__(self)
-    assert prob>0 and prob<=1, 'Probability should be between 0 and 1'
+    assert prob>0 and prob<=1
     self.prob = prob
   
   def forward(self, inputs):
     
     if self.eval:
-      filter = np.ones(inputs.shape) # dont discard anything, just dummy because if eval or not, backward needs to have filter arg
-    else:
+      filter = np.ones(inputs.shape) 
       filter = np.where(np.random.random(inputs.shape)<self.prob, 1, 0)
     inputs, filter = self.get_Whalors(inputs, filter)
-    if not(self.eval): # Deliberately repeated condition check for eval, because if in eval, it shouldnt be scaled by prob
+    if not(self.eval): 
       result = (inputs.data*filter.data)/self.prob
     else:
       result = inputs.data
-    return self.get_result_Whalor(inputs.data, inputs, filter)
+    return self.get_result_whalor(inputs.data, inputs, filter)
   
   def backward(self, inputs, filter):
     

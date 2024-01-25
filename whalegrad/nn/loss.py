@@ -80,7 +80,7 @@ class SoftmaxCE(Action, Loss):
     probs = softmax.calc_softmax(outputs.data, axis=self.axis)
     entropy = np.sum(targets.data*np.log(probs+epsilon))
     cost = (-1/num_examples)*entropy
-    return self.get_result_Whalor(cost, outputs, targets)
+    return self.get_result_whalor(cost, outputs, targets)
   
   def backward(self, outputs, targets):
     

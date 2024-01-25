@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Optional
 
 class RoPE:
     """Implements the rotary positional encoding [1].
@@ -127,14 +128,15 @@ class SinusoidalPositionalEncoding:
         siny = np.sin(y)
 
         if self.cos_first:
-            y = np.concatenate([cosy, siny], axis=-1)
+            y = np.hstack([cosy, siny])
         else:
-            y = np.concatenate([siny, cosy], axis=-1)
+            y = np.hstack([siny, cosy])
 
         if self.scale != 1:
             y = y * self.scale
 
         return y
+   
 
 
 class ALiBi:

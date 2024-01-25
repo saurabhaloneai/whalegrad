@@ -1,6 +1,6 @@
 import numpy as np
-from base import Core
-
+from .base import Core
+from .base import Param 
 
 class Embedding(Core):
     """Implements a simple lookup table that maps each input integer to a
@@ -19,7 +19,7 @@ class Embedding(Core):
         self.num_embeddings = num_embeddings
         self.dims = dims
         scale = np.sqrt(1 / dims)
-        self.weight = np.random.normal(0, scale, (num_embeddings, dims))
+        self.weight = Param(np.random.normal(0, scale, (num_embeddings, dims)))
 
     def _extra_repr(self):
         return f"{self.num_embeddings}, {self.dims}"

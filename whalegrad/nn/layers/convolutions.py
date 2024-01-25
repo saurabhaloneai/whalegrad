@@ -1,76 +1,95 @@
 import numpy as np
 from typing import Union
+from .base import Core  
+from .base import Param 
 
-class Conv1d:
-    def __init__(
-        self,
-        in_channels: int,
-        out_channels: int,
-        kernel_size: int,
-        stride: int = 1,
-        padding: int = 0,
-        bias: bool = True,
-    ):
-        scale = np.sqrt(1 / (in_channels * kernel_size))
-        self.weight = np.random.uniform(
-            low=-scale,
-            high=scale,
-            size=(out_channels, kernel_size, in_channels),
-        )
-        if bias:
-            self.bias = np.zeros((out_channels,))
+import math
+import numpy as np
+from whalegrad.engine.functions import Action
+from .essential import conv2d, conv3d, maxpool2d, maxpool3d
 
-        self.padding = padding
-        self.stride = stride
 
-    def _extra_repr(self):
-        return (
-            f"{self.weight.shape[-1]}, {self.weight.shape[0]}, "
-            f"kernel_size={self.weight.shape[1]}, stride={self.stride}, "
-            f"padding={self.padding}, bias={'bias' in self.__dict__}"
-        )
+class Conv2D(Core):
+  
+  def __init__(self, kernel_shape, padding=0, stride=1):
+    
+    self.padding = padding
+    self.stride = stride
+    if len(kernel_shape)!=2:
+      raise ValueError("Kernel shape can only have 2 dims")
+    self.weights = Param(np.random.randn(*kernel_shape), requires_grad=True, requires_broadcasting=False)
+    self.bias = Param(0, requires_grad=True, requires_broadcasting=False)
+  
+  def forward(self, inputs):
+    
+    return conv2d(inputs, self.weights, self.bias, self.padding, self.stride)
+  
+  def __repr__(self):
+    return f'Conv2D(kernel_shape={self.weights.shape}, padding={self.padding}, stride={self.stride})'
+  
+  def __str__(self):
+    return f'Conv2D(kernel_shape={self.weights.shape}, padding={self.padding}, stride={self.stride})'
 
-    def __call__(self, x):
-        y = np.conv1d(x, self.weight, stride=self.stride, padding=self.padding)
-        if "bias" in self.__dict__:
-            y = y + self.bias
-        return y
 
-class Conv2d:
-    def __init__(
-        self,
-        in_channels: int,
-        out_channels: int,
-        kernel_size: Union[int, tuple],
-        stride: Union[int, tuple] = 1,
-        padding: Union[int, tuple] = 0,
-        bias: bool = True,
-    ):
-        kernel_size, stride, padding = map(
-            lambda x: (x, x) if isinstance(x, int) else x,
-            (kernel_size, stride, padding),
-        )
-        scale = np.sqrt(1 / (in_channels * kernel_size[0] * kernel_size[1]))
-        self.weight = np.random.uniform(
-            low=-scale,
-            high=scale,
-            size=(out_channels, *kernel_size, in_channels),
-        )
-        if bias:
-            self.bias = np.zeros((out_channels,))
+class Conv3D(Core):
+  
+  def __init__(self, in_channels, out_channels, kernel_shape, padding=0, stride=1):
+    
+    self.padding = padding
+    self.stride = stride
+    if len(kernel_shape)!=2:
+      raise ValueError("Kernel shape can only have 2 dims")
+    self.weights = Param(np.random.randn(out_channels, in_channels, *kernel_shape), requires_grad=True, requires_broadcasting=False)
+    self.bias = Param(np.zeros(out_channels), requires_grad=True, requires_broadcasting=False)
+  
+  def forward(self, inputs):
+    
+    return conv3d(inputs, self.weights, self.bias, self.padding, self.stride)
+  
+  def __repr__(self):
+    kernel_shape = self.weights.shape
+    return f'Conv3D(out_channels={kernel_shape[0]}, in_channels={kernel_shape[1]}, kernel_shape={kernel_shape[2:]}, padding={self.padding}, stride={self.stride})'
+  
+  def __str__(self):
+    kernel_shape = self.weights.shape
+    return f'Conv3D(out_channels={kernel_shape[0]}, in_channels={kernel_shape[1]}, kernel_shape={kernel_shape[2:]}, padding={self.padding}, stride={self.stride})'
 
-        self.padding = padding
-        self.stride = stride
 
-    def _extra_repr(self):
-        return (
-            f"{self.weight.shape[-1]}, {self.weight.shape[0]}, "
-            f"kernel_size={self.weight.shape[1:3]}, stride={self.stride}, "
-            f"padding={self.padding}, bias={'bias' in self.__dict__}"
-        )
+class MaxPool2D(Core):
+  
+  def __init__(self, kernel_shape, padding=0, stride=1):
+    self.padding = padding
+    self.stride = stride
+    if len(kernel_shape)!=2:
+      raise ValueError("Kernel shape can only have 2 dims")
+    self.kernel_shape = kernel_shape
+  
+  def forward(self, inputs):
+    
+    return maxpool2d(inputs, self.kernel_shape, self.padding, self.stride)
+  
+  def __repr__(self):
+    return f'MaxPool2D(kernel_shape={self.kernel_shape}, padding={self.padding}, stride={self.stride})'
+  
+  def __str__(self):
+    return f'MaxPool2D(kernel_shape={self.kernel_shape}, padding={self.padding}, stride={self.stride})'
 
-    def __call__(self, x):
-        y = np.conv2d(x, self.weight, stride=self.stride, padding=self.padding)
-        if "bias" in self.__dict__:
-            y = y + self.bias
-        return y
+
+class MaxPool3D(Core):
+  
+  def __init__(self, kernel_shape, padding=0, stride=1):
+    self.padding = padding
+    self.stride = stride
+    if len(kernel_shape)!=2:
+      raise ValueError("Kernel shape can only have 2 dims")
+    self.kernel_shape = kernel_shape
+  
+  def forward(self, inputs):
+    
+    return maxpool3d(inputs, self.kernel_shape, self.padding, self.stride)
+  
+  def __repr__(self):
+    return f'MaxPool3D(kernel_shape={self.kernel_shape}, padding={self.padding}, stride={self.stride})'
+  
+  def __str__(self):
+    return f'MaxPool3D(kernel_shape={self.kernel_shape}, padding={self.padding}, stride={self.stride})'
