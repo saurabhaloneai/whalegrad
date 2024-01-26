@@ -54,6 +54,11 @@ def get_batches(inputs, targets=None, batch_size=None):
       yield inputs[start:end]
     start = end
     
+#---------------------#
+import math
+import numpy as np
+
+
 
 class Conv:
   
@@ -114,14 +119,14 @@ class Conv2D(Action, Conv):
   
   def forward(self, inputs, kernel, bias):
     
-    inputs, kernel, bias = self.get_tensors(inputs, kernel, bias)
+    inputs, kernel, bias = self.get_Whalors(inputs, kernel, bias)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], *self.get_result_shape(inputs.shape, kernel.shape)))
     padded_inputs = self.pad(inputs.data)
     for (fragment, _, _), idx in self.fragment_iterator(padded_inputs, kernel.shape, np.ndindex(outputs.shape[-2:])):
       output = np.sum((fragment*kernel.data), axis=(1,2)) + bias.data
       outputs[:,idx[0],idx[1]] = output
-    return self.get_result_tensor(outputs, inputs, kernel, bias)
+    return self.get_result_whalor(outputs, inputs, kernel, bias)
   
   def backward(self, inputs, kernel, bias):
     
@@ -173,7 +178,7 @@ class Conv3D(Action, Conv):
   
   def forward(self, inputs, kernel, bias):
     
-    inputs, kernel, bias = self.get_tensors(inputs, kernel, bias)
+    inputs, kernel, bias = self.get_Whalors(inputs, kernel, bias)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], kernel.shape[0], *self.get_result_shape(inputs.shape, kernel.shape)))
     padded_inputs = self.pad(inputs.data)
@@ -248,7 +253,7 @@ class MaxPool2D(Action, Conv):
   
   def forward(self, inputs):
     
-    inputs = self.get_tensors(inputs)
+    inputs = self.get_Whalors(inputs)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], *self.get_result_shape(inputs.shape, self.kernel_shape)))
     padded_inputs = self.pad(inputs.data)
@@ -277,7 +282,7 @@ class MaxPool2D(Action, Conv):
   
   def validate_inputs(self, inputs):
     
-    if len(inputs.shape)!=3: 
+    if len(inputs.shape)!=3: # The first dimension should be number of examples
       raise ValueError("Only 3D inputs, with 0th dim as number of examples are supported!")
 
 def maxpool2d(inputs, kernel_shape, padding, stride):
@@ -299,7 +304,7 @@ class MaxPool3D(Action, Conv):
   
   def forward(self, inputs):
     
-    inputs = self.get_tensors(inputs)
+    inputs = self.get_Whalors(inputs)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], inputs.shape[1], *self.get_result_shape(inputs.shape, self.kernel_shape)))
     padded_inputs = self.pad(inputs.data)
@@ -318,7 +323,7 @@ class MaxPool3D(Action, Conv):
         fragment_shape = fragment.shape
         flattened_fragment = fragment.reshape(fragment_shape[0]*fragment_shape[1], fragment_shape[2]*fragment_shape[3])
         args = np.argmax(flattened_fragment, axis=-1)
-        fragment_grad = np.eye(flattened_fragment.shape[-1])[args] 
+        fragment_grad = np.eye(flattened_fragment.shape[-1])[args] # one hot encoding of args
         fragment_grad = fragment_grad.reshape(fragment_shape)
         inputs_grad[:,:,row_slice,col_slice] = fragment_grad*np.expand_dims(sliced_ug,axis=(2,3))
       unpadded_inputs_grads = self.unpad(inputs_grad)
@@ -334,5 +339,3 @@ class MaxPool3D(Action, Conv):
 def maxpool3d(inputs, kernel_shape, padding, stride):
   
   return MaxPool3D(kernel_shape, padding, stride).forward(inputs)
-
-    

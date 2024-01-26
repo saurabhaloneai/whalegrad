@@ -9,6 +9,10 @@ from whalegrad.engine.functions import Action
 from .essential import conv2d, conv3d, maxpool2d, maxpool3d
 
 
+import numpy as np
+
+
+
 class Conv2D(Core):
   
   def __init__(self, kernel_shape, padding=0, stride=1):
