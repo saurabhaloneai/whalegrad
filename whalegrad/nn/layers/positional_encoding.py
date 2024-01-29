@@ -2,22 +2,7 @@ import numpy as np
 from typing import Optional
 
 class RoPE:
-    """Implements the rotary positional encoding [1].
-
-    The traditional implementation rotates consecutive pairs of elements in the
-    feature dimension while the default implementation rotates pairs with
-    stride half the feature dimensions for efficiency.
-
-    [1]: https://arxiv.org/abs/2104.09864
-
-    Args:
-        dims (int): The feature dimensions to be rotated. If the input feature
-            is larger than dims then the rest is left unchanged.
-        traditional (bool, optional): If set to True choose the traditional
-            implementation which is slightly less efficient. Default: ``False``
-        base (float, optional): The base used to compute angular frequency for
-            each dimension in the positional encodings. Default: ``10000``
-    """
+    
 
     def __init__(self, dims: int, traditional: bool = False, base: float = 10000):
         self.dims = dims
@@ -85,20 +70,7 @@ class RoPE:
 
 
 class SinusoidalPositionalEncoding:
-    """Implements sinusoidal positional encoding similar to [1].
-
-    [1]: https://arxiv.org/abs/1706.03762
-
-    Args:
-        dims (int): The dimensionality of the resulting positional embeddings.
-        min_freq (float): The minimum frequency expected (default: 0.0001)
-        max_freq (float): The maximum frequency expected (default: 1)
-        scale (float): Scale the embeddings by that number (default: sqrt(dims//2))
-        cos_first (bool): If set to True embed using ``[cos(x); sin(x)]``
-            instead of the other way around (default: False)
-        full_turns (bool): If set to True multiply the frequencies
-            with ``2 pi`` (default: False)
-    """
+    
 
     def __init__(
         self,
