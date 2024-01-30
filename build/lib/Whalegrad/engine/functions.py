@@ -1,5 +1,5 @@
 import numpy as np
-from whalegrad.engine.base.node import Node
+from Whalegrad.engine.base.node import Node
 
 
 class Action:

@@ -1,4 +1,4 @@
-from whalegrad.engine.whalor import Whalor
+from Whalegrad.engine.whalor import Whalor
 
 a = Whalor([5], requires_grad =True,)
 b = Whalor([4], requires_grad = True)

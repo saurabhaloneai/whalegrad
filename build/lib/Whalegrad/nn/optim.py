@@ -1,5 +1,5 @@
 import numpy as np
-from whalegrad.engine.toolbox import current_graph
+from Whalegrad.engine.toolbox import current_graph
 
 
 class Optimizer:
