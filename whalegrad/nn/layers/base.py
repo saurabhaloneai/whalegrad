@@ -1,5 +1,5 @@
 from copy import deepcopy
-from whalegrad.engine.whalor import Whalor
+from Whalegrad.engine.whalor import Whalor
 
 
 

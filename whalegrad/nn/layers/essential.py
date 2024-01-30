@@ -7,7 +7,7 @@ from .base import Param
 
 import math
 import numpy as np
-from whalegrad.engine.functions import Action
+from Whalegrad.engine.functions import Action
 
 
 
@@ -130,7 +130,7 @@ class Conv2D(Action, Conv):
   
   def backward(self, inputs, kernel, bias):
     
-    from whalegrad.engine.toolbox import unbroadcast_data
+    from Whalegrad.engine.toolbox import unbroadcast_data
     padded_inputs = self.pad(inputs.data)
 
     def inputs_backward(ug):
@@ -191,7 +191,7 @@ class Conv3D(Action, Conv):
   
   def backward(self, inputs, kernel, bias):
     
-    from whalegrad.engine.toolbox import unbroadcast_data
+    from Whalegrad.engine.toolbox import unbroadcast_data
 
     padded_inputs = self.pad(inputs.data)
 
