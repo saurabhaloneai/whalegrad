@@ -1,5 +1,5 @@
 from copy import deepcopy
-from Whalegrad.engine.whalor import Whalor
+from whalegrad.engine.whalor import Whalor
 
 
 
@@ -44,7 +44,7 @@ class Core:
     
     state = deepcopy(self.__dict__)
     for param_attr in self.parameters(as_dict=True).keys():
-      state[param_attr].data = 0 # Wanted to set it to None, but it isnt supported by Whalor, so set it to the next best 0
+      state[param_attr].data = 0 
     return state
   
   def __setattr__(self, attr, val):

@@ -1,6 +1,6 @@
 # Random input data for testing
 import numpy as np
-from Whalegrad.nn.layers.transformer import Transformer
+from whalegrad.nn.layers.transformer import Transformer
 
 
 

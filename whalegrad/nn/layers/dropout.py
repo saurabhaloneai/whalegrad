@@ -1,9 +1,9 @@
 # lest build the dropout Module
 from copy import deepcopy
-from Whalegrad.engine.whalor import Whalor
+from whalegrad.engine.whalor import Whalor
 import numpy as np
-from Whalegrad.engine.functions import dot
-from Whalegrad.engine.functions import Action
+from whalegrad.engine.functions import dot
+from whalegrad.engine.functions import Action
 from .base import Core
 
 

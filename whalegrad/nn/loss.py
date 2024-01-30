@@ -1,7 +1,7 @@
 import numpy as np
-from Whalegrad.engine.functions import sum as _sum, log
-from Whalegrad.engine.functions import Action
-from Whalegrad.nn.layers.activations import softmax
+from whalegrad.engine.functions import sum as _sum, log
+from whalegrad.engine.functions import Action
+from whalegrad.nn.layers.activations import softmax
 
 
 class Loss:

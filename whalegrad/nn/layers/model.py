@@ -1,8 +1,8 @@
 import dill
 from itertools import chain as list_flattener
-from containers import Container
+from .containers import Container
 from base import Core
-from Whalegrad.engine.toolbox import current_graph
+from whalegrad.engine.toolbox import current_graph
 
 
 class Model:

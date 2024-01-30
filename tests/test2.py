@@ -1,5 +1,5 @@
 import numpy as np
-from Whalegrad.nn.layers.embedding import Embedding  # Replace with the actual module or file where your Embedding class is defined
+from whalegrad.nn.layers.embedding import Embedding  # Replace with the actual module or file where your Embedding class is defined
 
 # # Create an instance of the Embedding layer
 # vocab_size = 10
@@ -19,7 +19,7 @@ from Whalegrad.nn.layers.embedding import Embedding  # Replace with the actual m
 # # # Print the input indices and corresponding embeddings for verification
 # for idx, embedding_vector in zip(input_indices, embedding_output):
 #     print(f"Input Index: {idx}, Embedding: {embedding_vector}")
-from Whalegrad.nn.layers.positional_encoding import SinusoidalPositionalEncoding  # Replace with the actual module or file where your SinusoidalPositionalEncoding class is defined
+from whalegrad.nn.layers.positional_encoding import SinusoidalPositionalEncoding  # Replace with the actual module or file where your SinusoidalPositionalEncoding class is defined
 
 # # Create an instance of the SinusoidalPositionalEncoding
 # sequence_length = 10

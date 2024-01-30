@@ -11,14 +11,14 @@
 # 8. add more activation function ✅
 
 
-from Whalegrad.nn.layers.activations import ReLU, Sigmoid, Tanh
-from Whalegrad.nn.layers.linear import Linear
-from Whalegrad.nn.loss import BCE
-from Whalegrad.nn.layers.model import Model
-from Whalegrad.nn.optim import Adam, Momentum, RMSProp, GD
-from Whalegrad.engine.whalor import Whalor
-from Whalegrad.nn.layers.containers import Sequential
-from Whalegrad.engine.toolbox import grad_check
+from whalegrad.nn.layers.activations import ReLU, Sigmoid, Tanh
+from whalegrad.nn.layers.linear import Linear
+from whalegrad.nn.loss import BCE
+from whalegrad.nn.layers.model import Model
+from whalegrad.nn.optim import Adam, Momentum, RMSProp, GD
+from whalegrad.engine.whalor import Whalor
+from whalegrad.nn.layers.containers import Sequential
+from whalegrad.engine.toolbox import grad_check
 import matplotlib.pyplot as plt
 
 from sklearn.datasets import make_moons

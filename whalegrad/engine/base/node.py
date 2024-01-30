@@ -27,7 +27,7 @@ class Node:
   
   def backward(self, retain_graph):
     
-    from Whalegrad.engine.toolbox import current_graph
+    from whalegrad.engine.toolbox import current_graph
     graph = current_graph()
     graph.reset_visited()
     self.visit_all_children()

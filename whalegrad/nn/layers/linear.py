@@ -1,5 +1,5 @@
 import numpy as np
-from Whalegrad.engine.functions import dot
+from whalegrad.engine.functions import dot
 from .base import Core
 from .base import Param
 

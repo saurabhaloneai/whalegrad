@@ -1,5 +1,5 @@
 from .base import Core
-from Whalegrad.engine.functions import Action
+from whalegrad.engine.functions import Action
 import numpy as np
 
 

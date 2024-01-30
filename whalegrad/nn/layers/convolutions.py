@@ -5,7 +5,7 @@ from .base import Param
 
 import math
 import numpy as np
-from Whalegrad.engine.functions import Action
+from whalegrad.engine.functions import Action
 from .essential import conv2d, conv3d, maxpool2d, maxpool3d
 
 
