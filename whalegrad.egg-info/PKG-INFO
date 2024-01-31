@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: whalegrad
+Version: 0.0.1
+Summary: A deep learning framework from scratch
+Author: Saurabh Aone
+License: MIT
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+
+# whalegrad 🐳
+# whalegrad a deep learning framework based on Python and NumPy with experimental Jax integration.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+![](https://github.com/saurabhaloneai/whalegrad/blob/main/images/whalegrad.png)
+
+# Whalor
+
+* It is multi-dim array like  Whalor.
+* It support float, int numpy-array and list.
+
+
