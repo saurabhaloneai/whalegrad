@@ -9,5 +9,3 @@ tests/fn_tester.py
 docs/build
 .env
 .vscode
-build
-dist
