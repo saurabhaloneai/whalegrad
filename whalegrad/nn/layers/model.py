@@ -1,7 +1,7 @@
 import dill
 from itertools import chain as list_flattener
 from .containers import Container
-from base import Core
+from .base import Core
 from whalegrad.engine.toolbox import current_graph
 
 

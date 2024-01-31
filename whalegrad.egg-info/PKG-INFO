@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: whalegrad
+Version: 0.0.1
+Summary: A deep learning framework from scratch
+Author: Saurabh Aone
+License: MIT
+License-File: LICENSE
+Requires-Dist: numpy

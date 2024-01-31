@@ -8,6 +8,7 @@ setup(
     packages = find_packages(),
     license = "MIT",
     description = "A deep learning framework from scratch",
+    long desxription = open("README.md").read(),
     install_requires = ["numpy"],
     
     )
