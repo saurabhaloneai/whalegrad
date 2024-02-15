@@ -29,7 +29,3 @@ def test_maxpool3d_forward(sample_input):
     output = maxpool_layer.forward(sample_input)
     assert output.shape == (1, 3, 16, 16)  # Adjust the expected shape accordingly
 
-# Add more test functions as needed based on your implementation details.
-
-# To run the tests, execute the following command in your terminal:
-# pytest test_conv_layers.py

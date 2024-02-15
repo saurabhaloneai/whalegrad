@@ -20,7 +20,7 @@ class Dropout(Core, Action):
     if self.eval:
       filter = np.ones(inputs.shape) 
       filter = np.where(np.random.random(inputs.shape)<self.prob, 1, 0)
-    inputs, filter = self.get_Whalors(inputs, filter)
+    inputs, filter = self.get_whalors(inputs, filter)
     if not(self.eval): 
       result = (inputs.data*filter.data)/self.prob
     else:

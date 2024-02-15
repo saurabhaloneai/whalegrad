@@ -87,6 +87,6 @@ class SoftmaxCE(Action, Loss):
     def sce_backward(ug):
       num_examples = self.get_num_examples(outputs.shape)
       probs = softmax.calc_softmax(outputs.data, axis=self.axis)
-      return (ug/num_examples)*(probs-targets.data) # ug is a scalar(1 by default), because loss calculated in forward is a scalar
+      return (ug/num_examples)*(probs-targets.data) # CrossEntropy derivative w.r.t outputs
     outputs.set_grad_fn(sce_backward)
     assert targets.requires_grad is False, 'Targets Tensor should have requires_grad=False'

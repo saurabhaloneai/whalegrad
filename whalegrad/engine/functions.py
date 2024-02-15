@@ -14,7 +14,7 @@ class Action:
         inputs[i] = Whalor(operand)
     return tuple(inputs)
   
-  def get_Whalors(self, *inputs):
+  def get_whalors(self, *inputs):
     
     Whalors = self.process_inputs(inputs)
     if len(Whalors)==0:
@@ -66,7 +66,7 @@ class Add(Action):
   
   def forward(self, whals1, whals2):
       
-      whals1, whals2 = self.get_Whalors(whals1, whals2)
+      whals1, whals2 = self.get_whalors(whals1, whals2)
       return self.get_result_whalor(whals1.data+whals2.data, whals1, whals2)
   
   def backward(self, whals1, whals2):
@@ -84,7 +84,7 @@ class Sub(Action):
   
   def forward(self, whals1, whals2):
     
-    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    whals1, whals2 = self.get_whalors(whals1, whals2)
     return self.get_result_whalor(whals1.data-whals2.data, whals1, whals2)
   
   def backward(self, whals1, whals2):
@@ -102,7 +102,7 @@ class Mul(Action):
   
   def forward(self, whals1, whals2):
     
-    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    whals1, whals2 = self.get_whalors(whals1, whals2)
     return self.get_result_whalor(whals1.data*whals2.data, whals1, whals2)
   
   def backward(self, whals1, whals2):
@@ -120,7 +120,7 @@ class Div(Action):
   
   def forward(self, whals1, whals2):
     
-    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    whals1, whals2 = self.get_whalors(whals1, whals2)
     return self.get_result_whalor(whals1.data/whals2.data, whals1, whals2)
   
   def backward(self, whals1, whals2):
@@ -138,7 +138,7 @@ class Dot(Action):
   
   def forward(self, whals1, whals2):
     
-    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    whals1, whals2 = self.get_whalors(whals1, whals2)
     return self.get_result_whalor(np.dot(whals1.data, whals2.data), whals1, whals2)
   
   def backward(self, whals1, whals2):
@@ -157,7 +157,7 @@ class Exp(Action):
   
   def forward(self, whals):
     
-    whals = self.get_Whalors(whals)
+    whals = self.get_whalors(whals)
     return self.get_result_whalor(np.exp(whals.data), whals)
   
   def backward(self, whals):
@@ -174,7 +174,7 @@ class Log(Action):
   
   def forward(self, whals):
     
-    whals = self.get_Whalors(whals)
+    whals = self.get_whalors(whals)
     return self.get_result_whalor(np.log(whals.data), whals)
   
   def backward(self, whals):
@@ -191,7 +191,7 @@ class Pow(Action):
   
   def forward(self, whals1, whals2):
     
-    whals1, whals2 = self.get_Whalors(whals1, whals2)
+    whals1, whals2 = self.get_whalors(whals1, whals2)
     return self.get_result_whalor(np.power(whals1.data, whals2.data), whals1, whals2)
   
   def backward(self, whals1, whals2):
@@ -214,7 +214,7 @@ class Sum(Action):
   
   def forward(self, whals):
     
-    whals = self.get_Whalors(whals)
+    whals = self.get_whalors(whals)
     return self.get_result_whalor(np.sum(whals.data, axis=self.axis), whals)
   
   def backward(self, whals):
@@ -236,7 +236,7 @@ class Transpose(Action):
   
   def forward(self, whals):
     
-    whals = self.get_Whalors(whals)
+    whals = self.get_whalors(whals)
     return self.get_result_whalor(whals.data.T, whals)
 
   def backward(self, whals):
@@ -253,7 +253,7 @@ class Flatten(Action):
   
   def forward(self, whals):
     
-    whals = self.get_Whalors(whals)
+    whals = self.get_whalors(whals)
     flattened = whals.data.flatten()
     return self.get_result_whalor(flattened.reshape(flattened.shape[0],1), whals)
   
@@ -271,7 +271,7 @@ class Reshape(Action):
   
   def forward(self, whals, new_shape):
     
-    whals = self.get_Whalors(whals)
+    whals = self.get_whalors(whals)
     return self.get_result_whalor(whals.data.reshape(new_shape), whals)
   
   def backward(self, whals):

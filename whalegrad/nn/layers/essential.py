@@ -119,7 +119,7 @@ class Conv2D(Action, Conv):
   
   def forward(self, inputs, kernel, bias):
     
-    inputs, kernel, bias = self.get_Whalors(inputs, kernel, bias)
+    inputs, kernel, bias = self.get_whalors(inputs, kernel, bias)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], *self.get_result_shape(inputs.shape, kernel.shape)))
     padded_inputs = self.pad(inputs.data)
@@ -178,7 +178,7 @@ class Conv3D(Action, Conv):
   
   def forward(self, inputs, kernel, bias):
     
-    inputs, kernel, bias = self.get_Whalors(inputs, kernel, bias)
+    inputs, kernel, bias = self.get_whalors(inputs, kernel, bias)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], kernel.shape[0], *self.get_result_shape(inputs.shape, kernel.shape)))
     padded_inputs = self.pad(inputs.data)
@@ -253,7 +253,7 @@ class MaxPool2D(Action, Conv):
   
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], *self.get_result_shape(inputs.shape, self.kernel_shape)))
     padded_inputs = self.pad(inputs.data)
@@ -304,7 +304,7 @@ class MaxPool3D(Action, Conv):
   
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     self.validate_inputs(inputs)
     outputs = np.empty((inputs.shape[0], inputs.shape[1], *self.get_result_shape(inputs.shape, self.kernel_shape)))
     padded_inputs = self.pad(inputs.data)

@@ -8,7 +8,7 @@ class ReLU(Core, Action):
   
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     return self.get_result_whalor(np.maximum(0, inputs.data), inputs)
   
   def backward(self, inputs):
@@ -27,7 +27,7 @@ class sigmoid(Core, Action):
   
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     return self.get_result_whalor(1/(1+np.exp(-inputs.data)), inputs)
   
   def backward(self, inputs):
@@ -47,7 +47,7 @@ class tanh(Core, Action):
   
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     return self.get_result_whalor(np.tanh(inputs.data), inputs)
   
   def backward(self, inputs):
@@ -71,7 +71,7 @@ class softmax(Core, Action):
 
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     result = self.calc_softmax(inputs.data, axis=self.axis)
     return self.get_result_whalor(result, inputs)
   
@@ -119,7 +119,7 @@ class LeakyReLU(Core, Action):
 
   def forward(self, inputs):
     
-    inputs = self.get_Whalors(inputs)
+    inputs = self.get_whalors(inputs)
     arr = inputs.data
     return self.get_result_whalor(np.where(arr>=0, arr, self.leak*arr), inputs)
   
