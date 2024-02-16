@@ -8,5 +8,7 @@
 
 * It is multi-dim array like  Whalor.
 * It support float, int numpy-array and list.
+* it supports auto grad
+* completely in python under ~1000 lines of code
 
 
