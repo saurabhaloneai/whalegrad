@@ -12,3 +12,11 @@
 * completely in python under ~1000 lines of code
 
 
+
+# TODO:
+1. intro - LOC, python, learning project, inspiration tiny and micorgrad
+2. example : basic auto grad and nn example 
+3. functionality : autograd, activation fn, RNN, CNN and transformers
+4. future scope 
+
+
