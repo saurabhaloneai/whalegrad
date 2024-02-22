@@ -1,6 +1,6 @@
 # whalegrad 
 
-** Whalegrad - A Lightweight Deep Learning Framework
+'Whalegrad' - A Lightweight Deep Learning Framework
 
 Welcome to DeepPy, my personal deep learning framework project. This is a learning journey for me. and i recreate the wheel. (readme file written by me and modified chatgpt :) 
 
