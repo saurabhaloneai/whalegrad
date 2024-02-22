@@ -132,3 +132,52 @@ class LeakyReLU(Core, Action):
   
   def __str__(self):
     return 'LeakyReLU'
+  
+#---------Swish----------#
+
+class Swish(Core, Action):
+
+    def __init__(self, beta=1.0):
+        self.beta = beta
+
+    def forward(self, inputs):
+        inputs = self.get_whalors(inputs)
+        result = inputs.data / (1 + np.exp(-self.beta * inputs.data))
+        return self.get_result_whalor(result, inputs)
+
+    def backward(self, inputs):
+        exp_beta_x = np.exp(-self.beta * inputs.data)
+        sigmoid_x = 1 / (1 + exp_beta_x)
+        swish_grad = (self.beta * exp_beta_x * inputs.data + sigmoid_x) / (1 + exp_beta_x)**2
+        inputs.set_grad_fn(lambda ug: swish_grad * ug)
+
+    def __repr__(self):
+        return f'Swish(beta={self.beta})'
+
+    def __str__(self):
+        return 'Swish'
+      
+#--------SwiGLU--------#
+
+class SwiGLU(Core, Action):
+
+    def __init__(self, beta=1.0):
+        self.beta = beta
+
+    def forward(self, inputs):
+        inputs = self.get_whalors(inputs)
+        gate = 1 / (1 + np.exp(-self.beta * inputs.data))
+        result = inputs.data * gate
+        return self.get_result_whalor(result, inputs)
+
+    def backward(self, inputs):
+        exp_beta_x = np.exp(-self.beta * inputs.data)
+        sigmoid_x = 1 / (1 + exp_beta_x)
+        swiglu_gate_grad = self.beta * exp_beta_x * sigmoid_x / (1 + exp_beta_x)**2
+        inputs.set_grad_fn(lambda ug: swiglu_gate_grad * ug)
+
+    def __repr__(self):
+        return f'SwiGLU(beta={self.beta})'
+
+    def __str__(self):
+        return 'SwiGLU'

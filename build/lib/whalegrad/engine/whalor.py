@@ -1,7 +1,7 @@
 from .toolbox import check_data, unbroadcast_data
 from .functions import add, sub, mul, div, pow as _pow, transpose, sum as _sum, exp, dot, flatten, reshape
 
-#Whalor == Whalor , whals == whals , whalors ==  Whalors. 
+
 
 class Whalor:
   def __init__(self, data, requires_grad=False, requires_broadcasting=True):
@@ -153,7 +153,7 @@ class Whalor:
     return Whalor(self.data[indices], requires_grad=self.requires_grad)
   
   def __repr__(self):
-    return f'Whalor({self.data}, requires_grad={self.requires_grad})'
-  
+    return f'Loss: {self.data.item()}'
+
   def __str__(self):
-    return f'Whalor( {self.data},\n requires_grad={self.requires_grad},\n grad_fn={self.grad_fn},\n shape={self.shape} )\n'
+    return f'{self.data.item()}'

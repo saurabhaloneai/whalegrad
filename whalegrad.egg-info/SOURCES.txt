@@ -2,7 +2,9 @@ LICENSE
 README.md
 setup.py
 examples/__init__.py
-examples/testing.py
+examples/autograd.py
+examples/mlp.py
+tests/test.py
 whalegrad/__init__.py
 whalegrad.egg-info/PKG-INFO
 whalegrad.egg-info/SOURCES.txt

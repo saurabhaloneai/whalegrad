@@ -1,15 +1,16 @@
 from setuptools import setup, find_packages
 
+def read_file(fpath):
+    with open(fpath) as fp:
+        data = fp.read()
+    return data
+
 setup(
+    name="whalegrad",
+    version="0.0.2",
+    author="Saurabh Aone",
+    packages=find_packages(),
     
-    name = "whalegrad",
-    version = "0.0.1",
-    author = "Saurabh Aone",
-    packages = find_packages(),
-    license = "MIT",
-    description = "A deep learning framework from scratch",
-    long_description=open("README.md").read(),
-    long_description_content_type = "text/x-rst",
-    install_requires = ["numpy"],
+    license="MIT",
     
-    )
+)
