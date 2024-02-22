@@ -26,10 +26,11 @@ Features:
 ```
 pip install whalegrad
 
-```
 
 
+
 ```
+#import
 from whalegrad.engine.whalor import Whalor
 
 a = Whalor([5], requires_grad =True,)
@@ -40,13 +41,15 @@ f = g - a
 k = f * a + b
 
 # print(a.shape)
+
 k.backward([1])
 
 # print(a)
+
 print(a.grad)
 print(b.grad) 
 
-```
+
 
 
 ## MLP 
@@ -64,12 +67,13 @@ from whalegrad.nn.layers.containers import Sequential
 from whalegrad.engine.toolbox import grad_check
 from whalegrad.nn.layers.essential import get_batches
 
-```
+
 
 ```
 #build the MLP model 
 
 class MLP(Model):
+
   def __init__(self):
     self.stack = Sequential(
       Linear(2,100),
@@ -81,14 +85,14 @@ class MLP(Model):
   def forward(self, inputs):
     return self.stack(inputs)
 
-```
+
 
 ```
 #train the model 
 
-# train the Module loop
+
 num_iter = 100
-# training loop
+
 def train(optim, Module=Module, num_iter=num_iter, loss_list=None, print_freq=1, print_vals=False):
   for i in range(num_iter):
     optim.zero_grad()
@@ -101,7 +105,6 @@ def train(optim, Module=Module, num_iter=num_iter, loss_list=None, print_freq=1,
     if i%print_freq==0 and print_vals:
       print(f"iter {i+1}/{num_iter}\nloss: {loss}\n")
 
-# train the Module 
 train(optim, print_vals=True)
 
-```
+
