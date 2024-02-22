@@ -47,3 +47,61 @@ print(a.grad)
 print(b.grad) 
 
 ```
+
+
+## MLP 
+
+```
+#import 
+
+from whalegrad.nn.layers.activations import ReLU, sigmoid, tanh
+from whalegrad.nn.layers.linear import Linear
+from whalegrad.nn.loss import  SoftmaxCE, BinaryCrossEntropy
+from whalegrad.nn.layers.Module import Module
+from whalegrad.nn.optim import Adam, Momentum, RMSProp, SGD
+from whalegrad.engine.whalor import Whalor
+from whalegrad.nn.layers.containers import Sequential
+from whalegrad.engine.toolbox import grad_check
+from whalegrad.nn.layers.essential import get_batches
+
+```
+
+```
+#build the MLP model 
+
+class MLP(Model):
+  def __init__(self):
+    self.stack = Sequential(
+      Linear(2,100),
+      ReLU(),
+      Linear(100,1),
+      sigmoid()
+    )
+  
+  def forward(self, inputs):
+    return self.stack(inputs)
+
+```
+
+```
+#train the model 
+
+# train the Module loop
+num_iter = 100
+# training loop
+def train(optim, Module=Module, num_iter=num_iter, loss_list=None, print_freq=1, print_vals=False):
+  for i in range(num_iter):
+    optim.zero_grad()
+    outputs = Module(X_train)
+    loss = loss_fn(outputs, y_train)
+    if loss_list is not None:
+      loss_list.append(loss.data)
+    loss.backward()
+    optim.step()
+    if i%print_freq==0 and print_vals:
+      print(f"iter {i+1}/{num_iter}\nloss: {loss}\n")
+
+# train the Module 
+train(optim, print_vals=True)
+
+```
