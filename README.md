@@ -49,8 +49,7 @@ k.backward([1])
 print(a.grad)
 print(b.grad) 
 
-
-
+```
 
 ## MLP 
 
@@ -67,6 +66,7 @@ from whalegrad.nn.layers.containers import Sequential
 from whalegrad.engine.toolbox import grad_check
 from whalegrad.nn.layers.essential import get_batches
 
+```
 
 
 ```
@@ -85,6 +85,7 @@ class MLP(Model):
   def forward(self, inputs):
     return self.stack(inputs)
 
+```
 
 
 ```
@@ -107,4 +108,4 @@ def train(optim, Module=Module, num_iter=num_iter, loss_list=None, print_freq=1,
 
 train(optim, print_vals=True)
 
-
+```
