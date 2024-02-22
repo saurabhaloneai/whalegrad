@@ -2,11 +2,9 @@ import numpy as np
 import pytest
 from whalegrad.nn.layers.convolutions import Conv2D, Conv3D, MaxPool2D, MaxPool3D
 
-# Replace 'your_module_name' with the actual module name where the Conv2D, Conv3D, MaxPool2D, MaxPool3D classes are defined.
 
 @pytest.fixture
 def sample_input():
-    # You may need to modify this depending on the input requirements of your functions.
     return np.random.randn(1, 3, 32, 32)  # Assuming 3-channel image of size 32x32
 
 def test_conv2d_forward(sample_input):
