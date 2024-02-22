@@ -113,7 +113,7 @@ train(optim, print_vals=True)
 2. tinygrad 
 
 
-## content 
+## Supported 
 
 ### Activation functions 
 
