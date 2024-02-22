@@ -26,9 +26,7 @@ Features:
 ```
 pip install whalegrad
 
-
-
-
+```
 ```
 #import
 from whalegrad.engine.whalor import Whalor
@@ -89,8 +87,7 @@ class MLP(Model):
 
 
 ```
-#train the model 
-
+#train the model
 
 num_iter = 100
 
@@ -109,3 +106,7 @@ def train(optim, Module=Module, num_iter=num_iter, loss_list=None, print_freq=1,
 train(optim, print_vals=True)
 
 ```
+## Credits 
+
+1. micrograd 
+2. tinygrad 
