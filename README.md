@@ -21,6 +21,13 @@ Features:
 
 # Get start with autograd:
 
+install 
+
+```
+pip install whalegrad
+
+```
+
 
 ```
 from whalegrad.engine.whalor import Whalor
