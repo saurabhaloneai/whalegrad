@@ -19,6 +19,7 @@ Features:
 
 * Functionality: is it have lots of activation fucntions, loss fucntions, optims and new embeddings.
 
+
 ## Get start with autograd:
 
 ### Install 
@@ -91,10 +92,10 @@ class MLP(Model):
 
 num_iter = 100
 
-def train(optim, Module=Module, num_iter=num_iter, loss_list=None, print_freq=1, print_vals=False):
+def train(optim, Model=Model, num_iter=num_iter, loss_list=None, print_freq=1, print_vals=False):
   for i in range(num_iter):
     optim.zero_grad()
-    outputs = Module(X_train)
+    outputs = Model(X_train)
     loss = loss_fn(outputs, y_train)
     if loss_list is not None:
       loss_list.append(loss.data)
@@ -110,3 +111,38 @@ train(optim, print_vals=True)
 
 1. micrograd 
 2. tinygrad 
+
+
+## content 
+
+### Activation functions 
+
+| Activation      | Description              |
+|-----------------|--------------------------|
+| ReLU            | Rectified Linear Unit    |
+| Sigmoid         | Sigmoid activation       |
+| Tanh            | Hyperbolic Tangent       |
+| Softmax         | Softmax activation       |
+| LeakyReLU       | Leaky Rectified Linear Unit |
+| Swish           | Swish activation         |
+| SwiGLU          | SwiGLU activation        |
+
+
+### Loss function 
+
+| Loss Function           | Description                               |
+|--------------------------|-------------------------------------------|
+| MeanSquaredError (MSE)   | Mean Squared Error                        |
+| BinaryCrossEntropy (BCE) | Binary Cross Entropy                      |
+| CrossEntropy (CE)        | Cross Entropy                             |
+| SoftmaxCE                | Softmax Cross Entropy                     |
+
+### optim 
+
+| Optimizer         | Description                                           |
+|-------------------|-------------------------------------------------------|
+| SGD               | Stochastic Gradient Descent                           |
+| Momentum          | Stochastic Gradient Descent with Momentum             |
+| RMSProp           | Root Mean Square Propagation                          |
+| Adam              | Adaptive Moment Estimation                            |
+
