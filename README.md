@@ -19,9 +19,9 @@ Features:
 
 * Functionality: is it have lots of activation fucntions, loss fucntions, optims and new embeddings.
 
-# Get start with autograd:
+## Get start with autograd:
 
-install 
+### Install 
 
 ```
 pip install whalegrad
