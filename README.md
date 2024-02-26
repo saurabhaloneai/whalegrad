@@ -58,7 +58,7 @@ print(b.grad)
 from whalegrad.nn.layers.activations import ReLU, sigmoid, tanh
 from whalegrad.nn.layers.linear import Linear
 from whalegrad.nn.loss import  SoftmaxCE, BinaryCrossEntropy
-from whalegrad.nn.layers.Module import Module
+from whalegrad.nn.layers.model import Model
 from whalegrad.nn.optim import Adam, Momentum, RMSProp, SGD
 from whalegrad.engine.whalor import Whalor
 from whalegrad.nn.layers.containers import Sequential
