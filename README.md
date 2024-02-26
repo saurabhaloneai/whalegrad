@@ -142,7 +142,6 @@ train(optim, print_vals=True)
 | Optimizer         | Description                                           |
 |-------------------|-------------------------------------------------------|
 | SGD               | Stochastic Gradient Descent                           |
-| Momentum          | Stochastic Gradient Descent with Momentum             |
 | RMSProp           | Root Mean Square Propagation                          |
 | Adam              | Adaptive Moment Estimation                            |
 
