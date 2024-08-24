@@ -10,6 +10,9 @@ setup(
     version="0.0.2",
     author="Saurabh Aone",
     packages=find_packages(),
+    install_requires=[
+        "numpy",
+    ],
     description= "Whalegrad - A Lightweight Deep Learning Framework",
     license="MIT",
     
